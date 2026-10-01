@@ -1,0 +1,1431 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rotina Neural de Estudos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07121a;--card:#0d2232;--card2:#13303f;--txt:#eef6fa;--mut:#8fbfd2;--line:#ffffff26;--teal:#3de6c8;--blue:#5ab4ff;--lime:#b2eb5b;--amber:#ffcc55;--red:#ff6b6b;--violet:#b48bff;--base:16px;--r:18px;--safe-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:var(--bg);background-image:radial-gradient(ellipse 60% 40% at 0% 0%,#3de6c815,transparent),radial-gradient(ellipse 50% 35% at 100% 80%,#5ab4ff10,transparent);color:var(--txt);font:var(--base)/1.6 'DM Sans',system-ui,sans-serif}
+body.large{--base:18px}body.xlarge{--base:20px}
+body.contrast{--bg:#000;--card:#111;--card2:#1a1a1a;--txt:#fff;--mut:#ddd;--line:#ffffff55;--teal:#00ffe0;--lime:#ccff00;background:#000}
+body.reading{--bg:#faf5e9;--card:#fffdf5;--card2:#f5ebcf;--txt:#1a1208;--mut:#4a3a20;--line:#c8a860;--teal:#0a7a68;--blue:#1b5fa8;--lime:#476b0b;--amber:#8a5a00;--red:#b3261e;--violet:#6a3fc0;background:#faf5e9}
+body.reading .btn.primary{color:#fff}
+body.reduce *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+h1,h2,h3{font-family:'Syne',system-ui,sans-serif;line-height:1.15;margin:0}
+.app{max-width:760px;margin:auto;padding:0 16px calc(90px + var(--safe-bottom)) 16px}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.top{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:10px 64px 10px 0;gap:8px;background:linear-gradient(to bottom,var(--bg) 60%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.brand{font-family:'Syne',sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.02em;color:var(--teal)}
+.brand small{display:block;font:500 .7rem 'DM Sans';color:var(--mut);letter-spacing:0}
+.xp-badge{background:linear-gradient(135deg,var(--amber),#ff9f43);color:#2a1700;font-weight:800;font-size:.8rem;padding:4px 12px;border-radius:99px}
+.a11y-fab{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));right:12px;z-index:220;width:48px;height:48px;border:2px solid var(--teal);border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--blue));color:#04151e;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 26px #00000055}
+.a11y-fab svg{width:24px;height:24px}
+.prog-wrap{display:none;margin:0 0 18px}.prog-wrap.on{display:block}
+.prog-row{display:flex;justify-content:space-between;font-size:.8rem;font-weight:700;color:var(--mut);margin-bottom:6px}
+.bar{height:8px;background:var(--card2);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--lime));transition:width .4s}
+.phase-header{margin:8px 0 18px}
+.ph-tag{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:.78rem;font-weight:700}
+.tag-ato,.tag-fase{padding:3px 10px;border-radius:99px;border:1px solid var(--line)}
+.tag-ato.a1{background:#3de6c81f;color:var(--teal)}.tag-ato.a2{background:#b48bff22;color:var(--violet)}.tag-ato.a3{background:#ffcc5522;color:var(--amber)}
+body.reading .tag-ato{background:transparent}
+.phase-header h1{font-size:clamp(1.7rem,6vw,2.3rem);margin-bottom:8px}
+.phase-header p{color:var(--mut);margin:0;max-width:62ch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:16px}
+.card h2{font-size:1.15rem;margin-bottom:8px}.card h3{font-size:1rem;margin:14px 0 6px}
+.card p{margin:.4em 0}.mut{color:var(--mut)}.small{font-size:.85rem}
+.lab{display:block;font-weight:700;margin:14px 0 6px}.lab:first-child{margin-top:0}
+.hint{font-size:.85rem;color:var(--mut);margin:-2px 0 8px}
+input[type=text],input[type=number],input[type=date],input[type=time],input[type=datetime-local],select,textarea{width:100%;font:inherit;color:var(--txt);background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:11px 13px;min-height:46px}
+textarea{min-height:92px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--teal);outline:none}
+.wc{font-size:.78rem;color:var(--mut);text-align:right}.wc.ok{color:var(--lime)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.row>*{flex:1 1 auto}
+.row.nofill>*{flex:0 0 auto}
+.btn{font:700 .95rem 'DM Sans',sans-serif;padding:12px 18px;border-radius:14px;border:2px solid var(--line);background:var(--card2);color:var(--txt);cursor:pointer;min-height:46px}
+.btn:hover{border-color:var(--teal)}
+.btn.primary{background:linear-gradient(135deg,var(--teal),var(--blue));color:#04151e;border-color:transparent}
+.btn.good{background:linear-gradient(135deg,var(--lime),var(--teal));color:#04151e;border-color:transparent}
+.btn.ghost{background:transparent}.btn.sm{padding:7px 12px;min-height:38px;font-size:.85rem}
+.nav{display:flex;justify-content:space-between;gap:10px;margin:22px 0}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.opts.tight{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.opt{display:block;text-align:left;font:inherit;color:inherit;background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer;min-height:48px}
+.opt b{display:block}.opt small{color:var(--mut);display:block;font-size:.8rem}
+.opt.on{border-color:var(--teal);background:#3de6c814}
+.opt:hover{border-color:var(--blue)}
+.callout{border-radius:14px;padding:12px 14px;margin:12px 0;border:1px solid var(--line);background:var(--card2)}
+.callout.warn{border-color:var(--amber);background:#ffcc5514}.callout.bad{border-color:var(--red);background:#ff6b6b14}.callout.ok{border-color:var(--lime);background:#b2eb5b12}.callout.info{border-color:var(--blue);background:#5ab4ff12}
+.callout b:first-child{display:block}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{display:inline-flex;align-items:center;gap:6px;background:var(--card2);border:1px solid var(--line);border-radius:99px;padding:5px 6px 5px 12px;font-size:.88rem}
+.tag button{border:0;background:#ffffff1a;color:inherit;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:.8rem}
+.sug{font:inherit;font-size:.85rem;background:transparent;color:var(--txt);border:1px dashed var(--mut);border-radius:99px;padding:5px 12px;cursor:pointer;min-height:34px}
+.sug:hover{border-color:var(--teal);color:var(--teal)}
+.scale{display:flex;gap:6px;margin-top:6px}
+.scale button{flex:1;font:inherit;font-size:.8rem;background:var(--bg);color:var(--txt);border:2px solid var(--line);border-radius:10px;padding:8px 2px;cursor:pointer;min-height:44px}
+.scale button.on{background:var(--teal);color:#04151e;border-color:var(--teal);font-weight:800}
+.scale.dp button.on.s1{background:var(--lime)}.scale.dp button.on.s2{background:var(--amber)}.scale.dp button.on.s3{background:var(--red)}
+.obst{padding:14px;border:1px solid var(--line);border-radius:14px;margin-bottom:10px;background:var(--bg)}
+.obst b{font-size:1rem}
+.energy-num{font:900 clamp(3.4rem,16vw,6rem)/1 'Syne',sans-serif;color:var(--teal);text-align:center;display:block}
+input[type=range]{width:100%;accent-color:var(--teal);min-height:36px}
+.fer{border:1px solid var(--line);border-radius:16px;margin-bottom:12px;background:var(--bg);overflow:hidden}
+.fer>summary{cursor:pointer;padding:14px 16px;font-weight:800;list-style:none;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.fer>summary::-webkit-details-marker{display:none}
+.fer .in{padding:0 16px 16px}
+.fer.on{border-color:var(--teal)}
+.q{padding:14px;border:1px solid var(--line);border-radius:14px;margin-bottom:12px;background:var(--bg)}
+.q.ok{border-color:var(--lime)}.q.no{border-color:var(--red)}
+.q .opt{margin-top:8px}
+.q .opt.right{border-color:var(--lime);background:#b2eb5b18}.q .opt.wrong{border-color:var(--red);background:#ff6b6b18}
+.rrow{display:grid;grid-template-columns:1fr;gap:6px;padding:12px 0;border-bottom:1px solid var(--line)}
+.rrow:last-child{border:0}
+.rr2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.badge{display:inline-block;border-radius:99px;padding:2px 10px;font-size:.78rem;font-weight:800}
+.badge.crit{background:var(--red);color:#2a0606}.badge.aten{background:var(--amber);color:#2a1700}.badge.manu{background:var(--lime);color:#14260a}
+.cm{display:grid;grid-template-columns:1.6fr 1fr 1fr auto;gap:6px;margin-bottom:6px;align-items:center}
+details.dayd{border:1px solid var(--line);border-radius:12px;margin-bottom:8px;background:var(--bg)}
+details.dayd>summary{cursor:pointer;padding:11px 14px;font-weight:700;display:flex;justify-content:space-between}
+details.dayd .in{padding:0 14px 12px}
+.bars{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:end;height:110px;margin:10px 0}
+.bars div{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:.72rem;color:var(--mut)}
+.bars i{display:block;width:100%;background:linear-gradient(to top,var(--teal),var(--blue));border-radius:6px 6px 0 0;min-height:2px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.stat b{display:block;font:800 1.5rem 'Syne',sans-serif;color:var(--teal)}.stat span{font-size:.78rem;color:var(--mut)}
+.pal-wrap{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.pal{font:inherit;font-size:.8rem;font-weight:700;color:var(--txt);background:var(--bg);border:2px solid var(--c,var(--line));border-radius:10px;padding:6px 10px;cursor:pointer;min-height:38px}
+.pal.on{background:var(--c,var(--teal));color:#07121a}
+.gridw{overflow:auto;border:1px solid var(--line);border-radius:14px;max-height:70vh;background:var(--card)}
+table.sched{border-collapse:separate;border-spacing:0;min-width:640px;width:100%;font-size:.7rem}
+table.sched th{position:sticky;top:0;z-index:2;background:var(--card2);padding:6px 2px;font-size:.78rem}
+table.sched tbody th{position:sticky;left:0;top:auto;z-index:1;width:46px;text-align:right;padding:0 6px;color:var(--mut);font-weight:500;background:var(--card);vertical-align:top}
+table.sched td{height:24px;border-top:1px solid #ffffff0d;border-left:1px solid #ffffff0d;padding:0 3px;text-align:center;overflow:hidden;white-space:nowrap;cursor:pointer;font-weight:700;color:#07121a}
+table.sched td.free{color:var(--mut);background:transparent}
+table.sched td.free:hover{background:#3de6c822}
+table.sched td.fixed{background:repeating-linear-gradient(135deg,#ffffff10 0 6px,#ffffff06 6px 12px);color:var(--mut);cursor:default;font-weight:500}
+table.sched td.off{background:#b48bff18;cursor:default;color:var(--violet);font-weight:500}
+.day{border-bottom:1px solid var(--line);padding:10px 0}.day:last-child{border:0}
+.day h3{display:flex;justify-content:space-between}
+.sess{display:flex;gap:10px;align-items:baseline;padding:4px 0}
+.sess i{display:inline-block;width:10px;height:10px;border-radius:3px;flex:0 0 auto}
+.sess time{font-variant-numeric:tabular-nums;color:var(--mut);min-width:110px;font-size:.88rem}
+.sem{display:grid;gap:6px;margin:12px 0}
+.sem div{display:flex;gap:8px;align-items:flex-start;font-size:.9rem}
+.ck{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)}.ck:last-child{border:0}
+.cc{border:1px solid var(--line);border-left:6px solid var(--violet);border-radius:14px;padding:14px;margin-bottom:14px;background:var(--bg);break-inside:avoid}
+.cc h3{margin-top:0}.cc ul{margin:6px 0 10px;padding-left:20px}.cc li{margin:3px 0}
+.traf{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.traf>div{border-radius:14px;padding:12px;border:2px solid var(--line)}
+.traf .g{border-color:var(--lime)}.traf .y{border-color:var(--amber)}.traf .r{border-color:var(--red)}
+.modal{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;z-index:300;padding:16px}.modal.open{display:flex}
+.modal .box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;max-width:420px;width:100%}
+.toast{position:fixed;left:50%;bottom:calc(18px + var(--safe-bottom));transform:translate(-50%,30px);background:var(--card2);border:1px solid var(--teal);color:var(--txt);padding:10px 16px;border-radius:14px;opacity:0;pointer-events:none;transition:.25s;z-index:400;max-width:92vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.confetti{position:fixed;top:-10px;width:9px;height:14px;z-index:500;animation:fall 2.4s linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.8}}
+.hero{padding:26px 0 8px}
+.hero h1{font-size:clamp(2.2rem,9vw,3.4rem)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.chip{border:1px solid var(--line);border-radius:99px;padding:4px 12px;font-size:.82rem;background:var(--card)}
+details.imp summary{cursor:pointer;color:var(--mut);font-size:.9rem}
+.rep h2{margin:22px 0 10px}
+@media(max-width:560px){.cm{grid-template-columns:1fr 1fr auto}.cm select{grid-column:1/-1}.rr2{grid-template-columns:1fr}}
+@media print{body{background:#fff!important;color:#000!important}.top,.prog-wrap,.nav,.noprint,.a11y-fab,.toast{display:none!important}.card,.cc,.stat{background:#fff!important;border:1px solid #bbb!important;color:#000!important}.mut,.hint{color:#444!important}.app{max-width:none;padding:0}.gridw{max-height:none;overflow:visible}.cc{break-inside:avoid}*{color:#000!important}.badge{border:1px solid #000}}
+h1:focus{outline:none}
+[hidden]{display:none!important}
+
+.cm>*,.rr2>*{min-width:0}
+/* calendário */
+.cal{border:1px solid var(--line);border-radius:16px;padding:12px;background:var(--bg);margin-bottom:12px}
+.cal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px}
+.cal-h b{text-transform:capitalize;font-family:'Syne',sans-serif}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-g .dw{font-size:.75rem;color:var(--mut);text-align:center;padding:4px 0;font-weight:700}
+.cal-g button{min-height:44px;border-radius:10px;border:2px solid transparent;background:var(--card2);color:var(--txt);font:inherit;cursor:pointer;padding:0}
+.cal-g button:hover:not(:disabled){border-color:var(--blue)}
+.cal-g button:disabled{opacity:.28;cursor:not-allowed}
+.cal-g button.today{border-color:var(--amber)}
+.cal-g button.btw{background:#3de6c824}
+.cal-g button.s1{background:var(--teal);color:#04151e;font-weight:800}
+.cal-g button.s2{background:var(--violet);color:#120a2a;font-weight:800}
+.badge.dia{background:#5ab4ff26;color:var(--blue);border:1px solid var(--blue);font-weight:700}
+/* ilustrações */
+.ilu{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px;margin:12px 0}
+.ilu svg{width:100%;height:auto;display:block}
+.ilu text{fill:var(--txt);font-family:'DM Sans',system-ui,sans-serif}.ilu text.m{fill:var(--mut)}
+.cena{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:12px}
+.cena>div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.cena span{font-size:1.7rem;display:block;line-height:1.2}.cena p{margin:6px 0 0;font-size:.9rem}
+.ad{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.ad>div{border-radius:14px;padding:12px;border:2px solid var(--line)}
+.ad .antes{border-color:var(--red);background:#ff6b6b10}.ad .depois{border-color:var(--lime);background:#b2eb5b10}
+.ad p{margin:6px 0 0;font-size:.9rem}
+/* radar */
+.exp2{display:grid;gap:14px}
+.ex{display:flex;gap:12px;align-items:flex-start}
+.ex p{margin:4px 0}
+.exn{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--blue));color:#04151e;font:800 1.1rem 'Syne',sans-serif;display:flex;align-items:center;justify-content:center}
+table.matriz{border-collapse:separate;border-spacing:4px;width:100%;min-width:300px;text-align:center;font-size:.85rem}
+table.matriz th{font-size:.78rem;color:var(--mut);padding:4px}
+table.matriz td{border-radius:10px;padding:8px 4px}table.matriz td b{display:block;font-size:1.25rem}table.matriz td small{font-size:.7rem}
+table.matriz td.crit{background:#ff6b6b33;color:var(--txt)}table.matriz td.aten{background:#ffcc5533}table.matriz td.manu{background:#b2eb5b2e}
+.pcard{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
+.pcard.ok{border-color:#3de6c866}
+.pcard .ph{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px;font-size:1.1rem}
+.pq{margin-bottom:12px}
+.pt{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+.pt .n{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--card2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem}
+.pt b{display:block;font-size:1rem}.pt small{color:var(--mut);display:block;font-size:.82rem}
+.pb3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pbtn{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;font:inherit;color:var(--txt);background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:10px 4px;cursor:pointer;min-height:92px}
+.pbtn .e{font-size:1.5rem;line-height:1.1}.pbtn b{font-size:.98rem}.pbtn small{font-size:.72rem;color:var(--mut);line-height:1.25}
+.pbtn:hover{border-color:var(--blue)}
+.pbtn.on{color:#07121a;font-weight:700}.pbtn.on small{color:#07121a}
+.pbtn.d1{background:var(--lime);border-color:var(--lime)}.pbtn.d2{background:var(--amber);border-color:var(--amber)}.pbtn.d3{background:var(--red);border-color:var(--red)}
+.pbtn.w1,.pbtn.w2,.pbtn.w3{background:var(--blue);border-color:var(--blue)}
+.pres{padding-top:10px;border-top:1px dashed var(--line);font-size:.95rem}
+.pres .badge{margin-left:6px}
+@media(max-width:560px){.ad{grid-template-columns:1fr}.pbtn small{font-size:.68rem}}
+
+.fer .tg::after{content:'abrir'}.fer[open] .tg::after{content:'fechar'}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">Rotina Neural<small>Edição universal</small></div>
+    <span class="xp-badge" id="xp" aria-live="polite">⚡ 0 XP</span>
+  </header>
+  <div class="prog-wrap" id="progw"><div class="prog-row"><span id="progl"></span><span id="progt"></span></div><div class="bar"><i id="bar"></i></div></div>
+  <main id="stage"></main>
+</div>
+<button class="a11y-fab noprint" onclick="openA()" aria-label="Abrir opções de acessibilidade" title="Acessibilidade">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2"/><path d="M4 8.5l8 1.5 8-1.5M12 10v5m0 0l-3.5 6M12 15l3.5 6"/></svg>
+</button>
+<div class="modal" id="am" role="dialog" aria-modal="true" aria-labelledby="amt" onclick="if(event.target===this)closeA()">
+  <div class="box">
+    <h2 id="amt" style="margin-bottom:12px">Acessibilidade</h2>
+    <label class="lab" for="fs">Tamanho da fonte</label>
+    <select id="fs" onchange="applyA()"><option value="">Padrão (16px)</option><option value="large">Grande (18px)</option><option value="xlarge">Muito grande (20px)</option></select>
+    <label class="lab" for="vm">Tema visual</label>
+    <select id="vm" onchange="applyA()"><option value="">Padrão (escuro)</option><option value="contrast">Alto contraste</option><option value="reading">Modo leitura (claro)</option></select>
+    <label class="row nofill" style="margin-top:14px;gap:8px"><input type="checkbox" id="rm" onchange="applyA()"> Reduzir animações</label>
+    <button class="btn primary" style="margin-top:16px;width:100%" onclick="closeA()">Fechar</button>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<noscript><p style="padding:20px">Este jogo precisa de JavaScript para funcionar.</p></noscript>
+<script>
+'use strict';
+/* ================= UTIL ================= */
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const wc = t => { t = (t || '').trim(); return t ? t.split(/\s+/).length : 0; };
+const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+const DAYS = ['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'];
+const DS = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+const KEY = 'rotinaNeuralUniversal.v1';
+const A11Y = 'rotinaNeuralUniversal.a11y';
+
+function getPath(o, p) { return p.split('.').reduce((a, k) => a == null ? a : a[k], o); }
+function setPath(o, p, v) {
+  const ks = p.split('.'); let a = o;
+  for (let i = 0; i < ks.length - 1; i++) { if (a[ks[i]] == null || typeof a[ks[i]] !== 'object') a[ks[i]] = {}; a = a[ks[i]]; }
+  a[ks[ks.length - 1]] = v;
+}
+function deepMerge(b, o) {
+  if (o === undefined) return b;
+  if (b === null || typeof b !== 'object' || Array.isArray(b)) return o;
+  if (o === null || typeof o !== 'object' || Array.isArray(o)) return o;
+  const r = { ...b };
+  for (const k in o) r[k] = (k in b) ? deepMerge(b[k], o[k]) : o[k];
+  return r;
+}
+const tm = s => { const [h, m] = String(s || '0:0').split(':').map(Number); return (h || 0) * 60 + (m || 0); };
+const fm = m => { m = ((m % 1440) + 1440) % 1440; return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); };
+const hh = n => (Math.round(n * 10) / 10).toString().replace('.', ',');
+
+/* ================= DADOS ================= */
+const FOCOS = [
+  { id: 'enem', t: 'ENEM', d: 'Exame Nacional do Ensino Médio' },
+  { id: 'psc', t: 'PSC', d: 'Processo Seletivo Contínuo (UFAM)' },
+  { id: 'sis', t: 'SIS', d: 'Sistema de Ingresso Seriado' },
+  { id: 'macro', t: 'Macro UEA', d: 'Vestibular da UEA (Vunesp), em 2 dias' },
+  { id: 'concurso', t: 'Concurso Público', d: 'As matérias variam conforme o edital' }
+];
+const SITUACOES = [
+  { id: 'integral', t: 'Só estudo', d: 'Dedicação integral à preparação', max: 6 },
+  { id: 'escola', t: 'Escola ou faculdade', d: 'Estudo no contraturno', max: 3 },
+  { id: 'trabalho', t: 'Trabalho', d: 'Estudo antes ou depois do expediente', max: 2.5 },
+  { id: 'misto', t: 'Trabalho e estudo', d: 'Agenda mais apertada', max: 2 }
+];
+const SUG_CONC = ['Língua Portuguesa','Raciocínio Lógico-Matemático','Matemática','Informática','Direito Constitucional','Direito Administrativo','Direito Penal','Direito Processual Penal','Direito Civil','Legislação Específica','Atualidades','Conhecimentos Gerais','Administração Pública','Ética no Serviço Público','Língua Inglesa','Redação Oficial','Conhecimentos Específicos'];
+
+/* Pré-preenchimento: [nome, peso sugerido 1-3, nº de questões (opcional)] */
+function langNome() { return S.perfil.lingua === 'Espanhol' ? 'Língua Espanhola' : 'Língua Inglesa'; }
+function presetDisc() {
+  const p = S.perfil, L = langNome(), d1 = [1], d2 = [2], d12 = [1, 2];
+  if (p.foco === 'enem') return [
+    ['Língua Portuguesa e Interpretação', 3, null, d1], ['Literatura', 2, null, d1], [L, 1, null, d1], ['Artes', 1, null, d1], ['Educação Física', 1, null, d1],
+    ['História', 2, null, d1], ['Geografia', 2, null, d1], ['Filosofia', 1, null, d1], ['Sociologia', 1, null, d1], ['Redação', 3, null, d1],
+    ['Biologia', 2, null, d2], ['Física', 2, null, d2], ['Química', 2, null, d2], ['Matemática', 3, null, d2]];
+  if (p.foco === 'psc') return [
+    ['Língua Portuguesa', 3, 10, d1], ['Literatura', 2, 6, d1], ['História', 2, 6, d1], ['Geografia', 2, 6, d1],
+    ['Biologia', 2, 6, d1], ['Química', 2, 6, d1], ['Física', 2, 6, d1], ['Matemática', 2, 8, d1]];
+  if (p.foco === 'sis') {
+    const base = [
+      ['Língua Portuguesa, Literatura e Artes', 3, 8, d1], [p.etapa === '1' ? 'Língua Inglesa' : L, 2, 4, d1],
+      ['História, Filosofia e Educação Física', 3, 8, d1], ['Geografia', 3, 8, d1], ['Biologia', 3, 8, d1],
+      ['Química', 3, 8, d1], ['Física', 3, 8, d1], ['Matemática', 3, 8, d1]];
+    if (p.etapa === '2' || p.etapa === '3') base.push(['Redação', 3, null, d1]);
+    return base;
+  }
+  if (p.foco === 'macro') {
+    const a = p.areaCurso, hum = a === 'humanas', sau = a === 'saude', exa = a === 'exatas';
+    const x = (cond, q) => (cond ? q + 12 : q), dp = cond => (cond ? d12 : d1);
+    return [
+      ['Língua Portuguesa e Literatura', 3, 20, d12], [L, 1, 4, d1],
+      ['História, Filosofia, Sociologia e Educação Física', 2, x(hum, 12), dp(hum)], ['Geografia', 2, x(hum, 12), dp(hum)],
+      ['Biologia', 2, x(sau, 12), dp(sau)], ['Química', 2, x(sau, 12), dp(sau)],
+      ['Matemática', 2, x(exa, 12), dp(exa)], ['Física', 2, x(exa, 12), dp(exa)], ['Redação', 3, null, d2]];
+  }
+  return [];
+}
+const DIAINFO = {
+  enem: ['Dia 1: Linguagens, Ciências Humanas e Redação (5h30).', 'Dia 2: Ciências da Natureza e Matemática (5h).'],
+  macro: ['Dia 1: Conhecimentos Gerais (84 questões).', 'Dia 2: Conhecimentos Específicos (36 questões, conforme o curso) e Redação.']
+};
+const OFICIAL = {
+  enem: { d1: '2026-11-08', d2: '2026-11-15', t: 'datas do ENEM 2026 (8 e 15 de novembro)' },
+  macro: { d1: '2026-10-12', d2: '2026-10-13', t: 'datas informadas do Macro UEA (12 e 13 de outubro)' },
+  sis: { d1: '2026-10-11', d2: '', t: 'data informada do SIS UEA 2026 (11 de outubro)' }
+};
+const MACRO_AREAS = [
+  ['saude', 'Saúde e biológicas', 'Ex.: Medicina, Enfermagem. No Dia 2: Biologia e Química.'],
+  ['exatas', 'Exatas e tecnologia', 'Ex.: Engenharias, Computação. No Dia 2: Matemática e Física.'],
+  ['humanas', 'Humanas e sociais', 'Ex.: Direito, Pedagogia, Letras. No Dia 2: Geografia e História/Filosofia.']
+];
+const AREAS = [
+  { id: 'saude', t: 'Saúde e biológicas', ex: 'Medicina, Enfermagem, Odontologia', alto: /biolog|qu[ií]mic/i, medio: /f[ií]sic|matem|portugu|reda/i, baixo: /artes|edf|filosof|sociolog/i },
+  { id: 'exatas', t: 'Exatas e tecnologia', ex: 'Engenharias, Computação, Arquitetura', alto: /matem|f[ií]sic/i, medio: /qu[ií]mic|portugu|reda/i, baixo: /artes|edf|filosof|sociolog|literat|hist[oó]ria|biolog/i },
+  { id: 'humanas', t: 'Humanas e sociais', ex: 'Direito, Pedagogia, Psicologia, Jornalismo', alto: /portugu|reda|hist[oó]ria|geogr|filosof|sociolog|literat/i, medio: /matem|l[ií]ngua (ingl|esp)/i, baixo: /f[ií]sic|qu[ií]mic|biolog|artes|edf/i },
+  { id: 'comunica', t: 'Comunicação, artes e línguas', ex: 'Letras, Artes, Design, Publicidade', alto: /portugu|reda|literat|artes|l[ií]ngua (ingl|esp)/i, medio: /hist[oó]ria|filosof|sociolog|geogr/i, baixo: /f[ií]sic|qu[ií]mic/i },
+  { id: 'outra', t: 'Outra ou ainda não sei', ex: 'Mantém os pesos padrão da prova', alto: null, medio: null, baixo: null }
+];
+const diasFixos = () => ({ enem: 2, macro: 2, psc: 1, sis: 1 }[S.perfil.foco] || null);
+function pesoBase(d) { const mx = Math.max(0, ...S.disc.map(x => x.q || 0)); return d.q && mx ? clamp(Math.round(d.q / mx * 3), 1, 3) : (d.w || 2); }
+function pesoSugerido(d) {
+  const base = pesoBase(d), a = AREAS.find(x => x.id === S.perfil.interesse);
+  if (!a || !a.alto || ['macro', 'concurso'].includes(S.perfil.foco) || d.nome.includes(',')) return base;
+  const nm = d.nome.replace(/educa[cç][aã]o f[ií]sica/i, 'edf');
+  if (a.alto.test(nm)) return 3; if (a.medio && a.medio.test(nm)) return 2; if (a.baixo && a.baixo.test(nm)) return 1; return base;
+}
+/* ---- datas ---- */
+const pad2 = n => String(n).padStart(2, '0');
+const isoLocal = d => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+const hojeISO = () => isoLocal(new Date());
+const isoD = s => new Date(s + 'T12:00:00');
+const diasAte = iso => { const h = new Date(); h.setHours(12, 0, 0, 0); return Math.round((isoD(iso) - h) / 86400000); };
+const addDias = n => { const d = new Date(); d.setDate(d.getDate() + n); return isoLocal(d); };
+const fmtData = iso => (iso ? isoD(iso).toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' }) : '');
+const dpLabel = dp => ((dp || [1]).length > 1 ? 'Dias 1 e 2' : 'Dia ' + (dp || [1])[0]);
+
+const OB = [
+  { id: 'procrastinacao', nome: 'Procrastinação', ic: '⏳', frase: 'Adio o começo do estudo ou troco por outra coisa na hora H.',
+    sinal: 'Abro o material e logo estou no celular, arrumando a mesa ou "só vendo uma coisa".',
+    est: ['Plano Se-Então: ligue o começo do estudo a um gatilho concreto (hora, lugar, ação).', 'Regra dos 5 minutos: combine só começar por 5 minutos; parar depois é permitido.', 'Comece pela tarefa mínima (1 questão, 1 parágrafo). O ritmo vem depois de começar.', 'Reduza a fricção: separe material e água antes e deixe o caderno aberto na mesa.'],
+    se: 'Se eu sentar para estudar e bater preguiça, então faço 5 minutos da primeira questão antes de decidir parar.',
+    sos: ['Arrume só o material (1 min).', 'Cronômetro de 5 min na tarefa mais simples.', 'Ao tocar, escolha: continuar ou fazer uma pausa consciente de 5 min.'],
+    modo: 'Amarelo: tarefa mínima mais 1 bloco.', kw: /procrastin|adi(o|ar)\b|enrol|deixo para|última hora|começar/i },
+  { id: 'fadiga', nome: 'Fadiga mental', ic: '🔋', frase: 'Perco rendimento depois de um tempo: releio sem entender e a cabeça pesa.',
+    sinal: 'Leio o mesmo parágrafo duas vezes sem entender; surge sono ou irritação no meio do bloco.',
+    est: ['Pausa ativa de 5 a 10 min: água, luz natural, caminhar. Evite trocar a pausa por rolar o feed.', 'Alterne o tipo de tarefa: leitura, exercícios, revisão oral.', 'Coloque o conteúdo difícil nos seus picos de energia (mapa de energia).', 'Proteja o sono: cansaço acumulado não se resolve com mais horas de estudo.'],
+    se: 'Se eu reler o mesmo trecho duas vezes sem entender, então pauso 10 minutos e troco para resolver questões.',
+    sos: ['Levante e beba água.', 'Caminhe 5 min com luz natural, sem celular.', 'Volte com uma tarefa leve (revisão oral) ou encerre o bloco.'],
+    modo: 'Amarelo: reduzir para 50% e priorizar revisão.', kw: /cansa|fadiga|exaust|mental|esgot|cabe[çc]a/i },
+  { id: 'ansiedade', nome: 'Ansiedade', ic: '🌊', frase: 'Sinto tensão antes de estudar, de simulados ou da prova, e os pensamentos aceleram.',
+    sinal: 'Coração acelerado, branco na hora de responder, pensamentos de "não vou dar conta".',
+    est: ['Respiração lenta com expiração mais longa que a inspiração (ex.: inspira 4 s, solta 6 s, por 1 a 2 min).', 'Reavaliação: troque "vou travar" por "meu corpo está ativado para render". O sinal físico é o mesmo, a leitura é outra.', 'Escrita expressiva: 10 min escrevendo as preocupações antes de simulados e da prova.', 'Treino em condições reais: simulados com tempo e ambiente parecidos com os da prova, em dose crescente.', 'Foque no processo (o que posso fazer hoje), não só no resultado final.'],
+    se: 'Se o coração disparar antes do simulado ou da prova, então faço 6 respirações lentas e releio com calma a primeira questão.',
+    sos: ['6 respirações: inspira 4 s, solta 6 s.', 'Diga baixinho: "estou com ansiedade e posso continuar".', 'Faça só a próxima questão fácil.'],
+    modo: 'Vermelho se persistir: reduzir a carga e conversar com alguém de confiança.', kw: /ansied|nervos|trav|branco|medo|p[aâ]nico|press[aã]o/i },
+  { id: 'telas', nome: 'Telas e redes', ic: '📱', frase: 'O celular e as redes puxam minha atenção no estudo ou roubam minhas horas de sono.',
+    sinal: 'Pego o celular "só para ver a hora" e perco 20 minutos; estudo com notificações ligadas.',
+    est: ['Celular em outro cômodo durante os blocos. Faça um experimento de 7 dias e compare seu rendimento (a evidência sobre a mera presença do aparelho é mista).', 'Aumente a fricção: notificações desligadas, modo foco e redes bloqueadas no horário de estudo.', 'Defina uma janela de redes como recompensa (ex.: 20 min depois do bloco).', 'Encerre as telas 30 a 60 min antes de dormir.'],
+    se: 'Se eu pegar o celular durante o bloco, então devolvo para o outro cômodo e reinicio o cronômetro.',
+    sos: ['Modo avião agora.', 'Celular para o outro cômodo.', 'Reinicie o bloco de 25 min.'],
+    modo: 'Amarelo: blocos curtos de 25 min com o celular fora do alcance.', kw: /celular|tela|rede|instagram|tiktok|youtube|whats|jogo|game|s[ée]rie/i },
+  { id: 'sono', nome: 'Sono irregular', ic: '😴', frase: 'Durmo tarde, acordo com cansaço ou sacrifico sono para estudar.',
+    sinal: 'Estudo de madrugada, acordo sem energia, cochilo durante o dia e o rendimento cai no fim da semana.',
+    est: ['Trate o sono como compromisso do cronograma, não como sobra (ele já está na sua grade).', 'Horário fixo de deitar e acordar, inclusive no fim de semana (variação de até 1 h).', 'Reduza luz e telas 30 a 60 min antes de dormir; cafeína só no início do dia.', 'Se atrasar, corte o bloco da noite em vez de cortar o sono e recupere o conteúdo no dia seguinte.'],
+    se: 'Se passar do meu horário de dormir, então encerro o bloco, anoto onde parei e retomo amanhã.',
+    sos: ['Anote onde parou (1 min).', 'Luz baixa e sem tela.', 'Durma; a revisão rápida de amanhã cobre o que faltou.'],
+    modo: 'Vermelho: noite perdida vira dia mínimo viável.', kw: /sono|dormir|ins[ôo]nia|madrugada|acordo/i },
+  { id: 'inconstancia', nome: 'Inconstância', ic: '🔁', frase: 'Quando perco um dia, acho que "já perdi tudo" e abandono o plano.',
+    sinal: 'Falhei um dia e a semana inteira desanda; recomeço sempre na próxima segunda-feira.',
+    est: ['Dia mínimo viável: 1 bloco de 25 min mais 10 min de revisão mantêm o hábito vivo.', 'Regra de ouro: nunca falhar dois dias seguidos.', 'Autocompaixão: trate o deslize como informação, não como sentença (pesquisas associam isso a menos procrastinação).', 'Revisão semanal do plano: ajuste o cronograma à vida real em vez de culpar a vida real.'],
+    se: 'Se eu perder um dia, então faço o dia mínimo viável amanhã, sem tentar compensar tudo.',
+    sos: ['Escolha a menor tarefa possível.', '25 min, sem compensar o atraso.', 'Marque o dia como feito, mesmo sendo o mínimo.'],
+    modo: 'Vermelho: dia mínimo viável.', kw: /desist|abandon|const[âa]ncia|consist|recome|falho|perdi/i },
+  { id: 'desmotivacao', nome: 'Desmotivação e comparação', ic: '🪞', frase: 'Duvido de mim quando comparo notas, rendimento ou ritmo com os outros.',
+    sinal: 'Simulado ruim vira "não nasci para isso"; olho o desempenho dos outros e travo.',
+    est: ['Volte ao seu "porquê": releia sua meta e o motivo que você escreveu.', 'Compare você com você: acompanhe sua própria curva (acertos por semana, erros repetidos).', 'Use metas de processo (blocos feitos, erros corrigidos) além de metas de nota.', 'Simulado ruim é mapa: anote 3 erros, 1 acerto e 1 ajuste para a semana.'],
+    se: 'Se o simulado vier abaixo do esperado, então anoto 3 erros, 1 acerto e 1 ajuste para a próxima semana.',
+    sos: ['Releia seu "porquê".', 'Escreva 3 coisas que avançaram esta semana.', 'Escolha 1 ajuste pequeno e só ele.'],
+    modo: 'Amarelo: manter o essencial e rever a meta.', kw: /compar|motiva|des[aâ]nim|impostor|capaz|nota|burro/i },
+  { id: 'imprevistos', nome: 'Imprevistos e rotina caótica', ic: '🌀', frase: 'Trabalho, família, saúde ou o ambiente atrapalham o plano com frequência.',
+    sinal: 'O plano é lindo no papel e a semana se desmonta na quarta-feira.',
+    est: ['Use o semáforo do dia (verde, amarelo, vermelho) para ajustar sem abandonar.', 'Tenha blocos curtos de reserva (10 a 15 min) e estudo em trânsito: áudio, flashcards, revisão oral.', 'Combine horários protegidos com família, colegas ou chefia e peça apoio de forma explícita.', 'Mantenha a reserva de 10% da semana para o que não dá para prever.'],
+    se: 'Se o dia desabar, então ativo o modo vermelho e faço só o mínimo viável.',
+    sos: ['Veja o que ainda cabe hoje (10 a 25 min).', 'Faça só isso.', 'Leve o que sobrou para a revisão semanal.'],
+    modo: 'Vermelho ou amarelo, conforme o dia.', kw: /imprevist|trabalho|fam[ií]lia|barulho|ambiente|tempo|caos|filho|casa/i }
+];
+const OBMAP = Object.fromEntries(OB.map(o => [o.id, o]));
+const ESC4 = ['Nunca', 'Raramente', 'Às vezes', 'Muitas vezes', 'Quase sempre'];
+
+const PRAT = ['Estudo só perto da prova', 'Releio e grifo, mas raramente me testo', 'Deixo tarefas para a última hora', 'Uso o celular durante o estudo', 'Dependo só da explicação em sala ou da videoaula', 'Não corrijo nem analiso meus erros', 'Estudo sem plano, o que der vontade', 'Maratono muitas horas e depois paro por dias', 'Já tenho uma rotina que funciona razoavelmente'];
+
+const FER = [
+  { id: 'espacada', t: 'Repetição espaçada', ic: '📅',
+    ci: 'Rever o conteúdo em intervalos crescentes combate a Curva do Esquecimento (Ebbinghaus). Distribuir o estudo em vários dias rende mais do que concentrar tudo numa noite.',
+    exv: 'Segunda você estuda função do 1º grau. Terça: revisão rápida (R+1). Quinta: de novo (R+3). Na semana seguinte: exercícios (R+7).',
+    exc: 'Estudou Direito Constitucional na segunda? Terça: 10 min de revisão. Quinta: questões do tema. Semana seguinte: revisão da lei seca.',
+    teste: 'Sem olhar nada, escreva 3 coisas que você estudou ontem.',
+    plano: 'Seu cronograma ganha um "aquecimento" de 10 min no começo das sessões (R+1, R+3, R+7).' },
+  { id: 'ativa', t: 'Recuperação ativa e caderno de erros', ic: '🔄',
+    ci: 'Testar-se é mais eficiente do que reler: puxar a informação da memória fortalece o aprendizado e mostra o que realmente foi aprendido. Questões e simulados são autotestes, e o erro registrado vira dado.',
+    exv: 'Terminou a aula de Química? Feche o caderno, escreva 5 conceitos de memória e depois confira. Errou uma questão? Anote em uma linha por que errou.',
+    exc: 'Resolva questões da banca logo depois de ler a teoria e registre cada erro como conceito, pegadinha ou desatenção.',
+    teste: 'Feche esta tela e explique em voz alta, em 30 segundos, o que é recuperação ativa.',
+    plano: 'Seu plano inclui um bloco semanal de questões e caderno de erros.' },
+  { id: 'foco', t: 'Blocos de foco com pausas', ic: '⏱',
+    ci: 'A atenção é um recurso limitado. Blocos curtos com pausas regulares ajudam a sustentar o foco e reduzir a fadiga. O Pomodoro (25/5 ou 50/10) é uma ferramenta de organização: teste qual tamanho funciona para você.',
+    exv: 'Celular fora do alcance, cronômetro de 25 min, estudo, pausa de 5 min, próximo bloco.',
+    exc: 'Para leitura densa (lei seca, doutrina), 50 min de foco e 10 de pausa podem render mais. Teste e compare.',
+    teste: 'Programe 25 minutos, faça uma única tarefa e anote quando a atenção escapou.',
+    plano: 'Seu cronograma é montado em ciclos de foco do tamanho que você escolher.' },
+  { id: 'habito', t: 'Circuito do hábito', ic: '🔗',
+    ci: 'Hábitos funcionam como circuito: gatilho, rotina, recompensa. Ligar o início do estudo a algo que você já faz e planejar o "Se-Então" reduz a dependência de motivação.',
+    exv: 'Depois do jantar (gatilho), abro o caderno e faço 25 min (rotina). Depois, 10 min de série ou marcar no planner (recompensa).',
+    exc: 'Ao chegar do trabalho e tomar um banho (gatilho), faço 1 bloco de questões (rotina) e marco no planner (recompensa).',
+    teste: 'Complete: "Depois de ____, eu começo a estudar".',
+    plano: 'Seu gatilho e sua recompensa entram no relatório final.' },
+  { id: 'sono', t: 'Sono, energia e alimentação', ic: '😴',
+    ci: 'Durante o sono o cérebro consolida memórias, e dormir pouco derruba a atenção no dia seguinte. Refeições regulares, hidratação e movimento sustentam a energia.',
+    exv: 'Estudar a matéria difícil às 19h, no seu pico, rende mais do que às 23h com sono.',
+    exc: 'Se você estuda depois do trabalho, reserve a matéria mais difícil para o horário em que você sente menos cansaço e proteja a hora de dormir.',
+    teste: 'Que horas você dormiu nas últimas 3 noites?',
+    plano: 'O sono entra no cronograma como compromisso fixo.' }
+];
+
+const QUIZ = [
+  { q: 'Qual prática descreve melhor a recuperação ativa?', ok: 'Fechar o material e tentar explicar ou responder sem olhar.', no: ['Reler o texto várias vezes.', 'Grifar tudo que parece importante.', 'Copiar o resumo de outra pessoa.'], exp: 'Puxar a informação da memória sem consultar fortalece o aprendizado e mostra o que realmente foi aprendido.' },
+  { q: 'Revisão espaçada significa:', ok: 'Rever o mesmo conteúdo em dias diferentes, como 1, 3 e 7 dias depois.', no: ['Estudar tudo em uma única noite.', 'Revisar somente depois da prova.', 'Trocar estudo por descanso.'], exp: 'Os intervalos crescentes dão ao cérebro a chance de recuperar a informação antes de esquecê-la.' },
+  { q: 'Estudar em blocos curtos com pausas ajuda porque:', ok: 'Protege a atenção e reduz a sobrecarga mental.', no: ['Elimina a necessidade de revisar.', 'Só funciona para quem já tem notas altas.', 'Substitui o sono.'], exp: 'A atenção é limitada; pausas regulares ajudam a sustentá-la ao longo do dia.' },
+  { q: 'Dormir bem é importante para aprender porque:', ok: 'Ajuda o cérebro a consolidar memórias e sustenta a atenção no dia seguinte.', no: ['Faz o cérebro apagar os conteúdos difíceis.', 'Permite estudar menos para sempre.', 'Só influencia o humor, não o aprendizado.'], exp: 'Sono e memória andam juntos: dormir mal compromete o que você estudou e o rendimento do dia seguinte.' },
+  { q: 'Qual frase é um plano Se-Então bem construído?', ok: 'Se eu sentar à mesa depois do jantar, então faço 25 minutos de questões.', no: ['Vou me esforçar mais.', 'Quando eu tiver vontade, eu estudo.', 'Preciso ter mais disciplina.'], exp: 'O plano Se-Então liga uma situação concreta a uma ação concreta e reduz a decisão na hora.' },
+  { q: 'Você errou uma questão no simulado. Qual atitude é mais eficaz?', ok: 'Registrar por que errou (conceito, pegadinha ou desatenção) e revisar depois.', no: ['Seguir adiante para não perder tempo.', 'Decorar o gabarito.', 'Concluir que a matéria não é para você.'], exp: 'O erro registrado mostra onde está o gargalo e orienta a próxima revisão.' }
+];
+
+const CM_T = ['Escola / faculdade', 'Trabalho', 'Trajeto', 'Refeição / descanso', 'Compromisso fixo', 'Clube, esporte ou curso'];
+const CM_SHORT = { 'Escola / faculdade': 'Aula', 'Trabalho': 'Trabalho', 'Trajeto': 'Trajeto', 'Refeição / descanso': 'Refeição', 'Compromisso fixo': 'Compromisso', 'Clube, esporte ou curso': 'Atividade' };
+
+/* ================= ESTADO ================= */
+function fresh() {
+  return {
+    v: 1, step: 0, xp: 0, done: {}, nid: 0, curto: false, alerta: false,
+    perfil: { nome: '', idade: '', foco: '', etapa: '', instit: 'UEA', cargo: '', banca: '', dias: 1, data1: '', data2: '', dataProva: '', semData: false, situacao: '', lingua: '', areaCurso: '', interesse: '' },
+    disc: [], discKey: '',
+    energia: { agora: 50, sono: 7, cronotipo: '', turnos: { manha: 3, tarde: 3, noite: 3 } },
+    raio: { prat: [], obst: {}, rotina: '', atrapalha: '', tentou: '' },
+    ferr: [], habito: { gatilho: '', recompensa: '' },
+    check: { ans: {}, perm: {}, graded: false, score: 0, tries: 0, wrong: [] },
+    prio: {},
+    disp: { acordar: '06:00', dormir: '22:00', preset: '', days: [[], [], [], [], [], [], []], tecnica: '25/5', folga: 6, horas: 0, maxDia: 3 },
+    cron: { cells: {}, gerado: false, view: 'grade', brush: null, aviso: '' },
+    pre: { texto: '' },
+    cont: { ids: null, se: {} },
+    meta: { acao: '', freq: '', semanas: '', resultado: '', porque: '', passo: '', passoDia: '', passoHora: '19:00', revisaoDias: 7 },
+    ui: { open: { 0: true }, cal: '', slot: 1 }
+  };
+}
+let S = fresh();
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function loadState() { try { const j = JSON.parse(localStorage.getItem(KEY) || 'null'); if (j && j.v === 1) S = deepMerge(fresh(), j); } catch (e) {} }
+
+/* ================= REGRAS DE NEGÓCIO ================= */
+const alvoSono = () => (Number(S.perfil.idade) < 18 ? 8 : 7);
+function fasePreparo() {
+  const p = S.perfil;
+  if (p.semData || !p.data1) return { k: 'base', dias: null, semanas: null, t: 'Sem data definida: vamos montar um plano de base e consolidação.' };
+  const n = diasAte(p.data1), dois = Number(p.dias) === 2 && p.data2;
+  const extra = dois ? ` O Dia 2 vem ${diasAte(p.data2) - n === 1 ? 'no dia seguinte' : (diasAte(p.data2) - n) + ' dias depois'}.` : '';
+  const sem = Math.ceil(n / 7);
+  if (n < 0) return { k: 'passou', dias: n, semanas: 0, t: 'Essa data já passou. Marque outra data no calendário ou escolha "ainda não sei".' };
+  if (n < 28) return { k: 'reta', dias: n, semanas: sem, t: `${n === 0 ? 'A prova é hoje' : n === 1 ? 'Falta 1 dia' : 'Faltam ' + n + ' dias'} para o ${dois ? 'Dia 1' : 'dia da prova'}: reta final. Sem conteúdo novo, só questões, revisão e simulados.${extra}` };
+  if (n <= 84) return { k: 'consolidacao', dias: n, semanas: sem, t: `Faltam cerca de ${sem} semanas: fase de consolidação. Mais questões e revisão dos pontos fracos.${extra}` };
+  return { k: 'base', dias: n, semanas: sem, t: `Faltam cerca de ${sem} semanas: fase de base. Foco em construir conteúdo e hábito.${extra}` };
+}
+const prioScore = id => { const p = S.prio[id]; return p && p.d && p.p ? p.d * p.p : 0; };
+const tier = sc => (sc >= 6 ? 'crit' : sc >= 3 ? 'aten' : 'manu');
+const TIERN = { crit: 'Crítica', aten: 'Atenção', manu: 'Manutenção' };
+const TURNO = m => (m < 720 ? 'manha' : m < 1080 ? 'tarde' : 'noite');
+const energyAt = s => Number(S.energia.turnos[TURNO(s * 30 % 1440)]) || 3;
+function slotRange() {
+  const a = tm(S.disp.acordar); let d = tm(S.disp.dormir); if (d <= a) d += 1440;
+  return [Math.ceil(a / 30), Math.floor(d / 30)];
+}
+function sonoPlanejado() { const a = tm(S.disp.acordar); let d = tm(S.disp.dormir); if (d <= a) d += 1440; return (1440 - (d - a)) / 60; }
+function fixedMaps() {
+  const [s0, s1] = slotRange();
+  return S.disp.days.map(list => {
+    const m = {};
+    list.forEach(c => {
+      const a = tm(c.ini), b = tm(c.fim); if (b <= a) return;
+      for (let s = Math.floor(a / 30); s < Math.ceil(b / 30); s++) if (s >= s0 && s < s1) m[s] = c.tipo;
+    });
+    return m;
+  });
+}
+/* janela útil de estudo: 1 h de rotina ao acordar e 30 min de desaceleração antes de dormir */
+function studyRange() { const [s0, s1] = slotRange(); return [Math.min(s0 + 2, s1), Math.max(s1 - 1, s0)]; }
+function freeCount(d, fx) { const [s0, s1] = studyRange(); let n = 0; for (let s = s0; s < s1; s++) if (!fx[d][s]) n++; return n; }
+function capacityHours() {
+  const fx = fixedMaps(); let t = 0;
+  for (let d = 0; d < 7; d++) { if (d === Number(S.disp.folga)) continue; t += Math.min(freeCount(d, fx) * .5, S.disp.maxDia); }
+  return t;
+}
+function techCyc() { return S.disp.tecnica === '50/10' ? 2 : 1; }
+
+/* ---- gerador do cronograma tático ---- */
+function gerar() {
+  const cyc = techCyc(), cycMin = cyc * 30, [s0, s1] = studyRange(), fx = fixedMaps();
+  const folga = Number(S.disp.folga);
+  const maxCyc = Math.max(1, Math.floor(S.disp.maxDia * 60 / cycMin));
+  const occ = Array.from({ length: 7 }, () => ({})), cells = {}, dayCyc = Array(7).fill(0);
+  const cnt = Array.from({ length: 7 }, () => ({}));
+  const days = [0, 1, 2, 3, 4, 5, 6].filter(d => d !== folga);
+  const freeAt = (d, s) => s >= s0 && s < s1 && !fx[d][s] && !occ[d][s];
+  const capCyc = d => { let n = 0, run = 0; for (let s = s0; s <= s1; s++) { if (s < s1 && freeAt(d, s)) run++; else { n += Math.floor(run / cyc); run = 0; } } return Math.min(maxCyc, n); };
+  const totalCap = days.reduce((a, d) => a + capCyc(d), 0);
+  const T = Math.min(Math.floor(S.disp.horas * 60 / cycMin), totalCap);
+  const fase = fasePreparo().k;
+  const nd = S.disc.length;
+  const dois = Number(S.perfil.dias) === 2;
+  let rev = cyc === 1 ? 2 : 1, q = Math.max(1, Math.round((fase === 'reta' ? 90 : 60) / cycMin));
+  let nSim = fase === 'reta' ? (dois ? 2 : 1) : (fase === 'consolidacao' && dois ? 1 : 0);
+  const simC = Math.max(1, Math.round((fase === 'reta' ? 90 : 60) / cycMin));
+  let R = T - rev - q - nSim * simC;
+  if (R < nd) { nSim = 0; R = T - rev - q; }
+  if (R < nd) { q = 0; R = T - rev; }
+  if (R < nd) { rev = 0; R = T; }
+  const sc = S.disc.map(x => ({ x, w: Math.max(1, prioScore(x.id)), n: 0 }));
+  let left = R;
+  if (R < nd) { [...sc].sort((a, b) => b.w - a.w).slice(0, Math.max(0, R)).forEach(o => o.n = 1); left = 0; }
+  else { sc.forEach(o => o.n = 1); left = R - nd; }
+  const cap = Math.max(2, Math.ceil(.3 * T));
+  const alvoDia = S.perfil.foco === 'macro' ? { 1: 1, 2: .4 } : { 1: .5, 2: .5 };
+  const dpOf = o => (o.x.dp && o.x.dp.length ? o.x.dp : [1]);
+  const share = g => { let a = 0, t = 0; sc.forEach(o => { t += o.n; if (dpOf(o).includes(g)) a += o.n; }); return t ? a / t : .01; };
+  const fator = o => { if (!dois) return 1; const gs = dpOf(o).filter(g => g === 1 || g === 2); return gs.reduce((a, g) => a + clamp(alvoDia[g] / Math.max(.01, share(g)), .75, 1.35), 0) / gs.length; };
+  while (left > 0) {
+    let best = null, bv = -1;
+    for (const o of sc) { if (o.n >= cap) continue; const v = o.w * fator(o) / (o.n + 1); if (v > bv) { bv = v; best = o; } }
+    if (!best) break; best.n++; left--;
+  }
+  const sessMax = cyc === 1 ? 3 : 2;
+  const sessions = [];
+  sc.forEach(o => {
+    if (!o.n) return; const k = Math.ceil(o.n / sessMax), b = Math.floor(o.n / k), ex = o.n % k;
+    for (let i = 0; i < k; i++) sessions.push({ key: o.x.id, cell: { t: 'd', id: o.x.id }, n: b + (i < ex ? 1 : 0), w: o.w, mode: o.w >= 6 ? 'high' : (o.w <= 2 ? 'low' : 'high') });
+  });
+  sessions.sort((a, b) => b.w - a.w || b.n - a.n);
+  const place = (d, n, mode) => {
+    if (dayCyc[d] + n > maxCyc) return -1;
+    const need = n * cyc; let best = -1, bs = null;
+    for (let s = s0; s + need <= s1; s++) {
+      let ok = true; for (let k = 0; k < need; k++) if (!freeAt(d, s + k)) { ok = false; break; }
+      if (!ok) continue;
+      let e = 0; for (let k = 0; k < need; k++) e += energyAt(s + k); e /= need;
+      const sco = mode === 'late' ? s : (mode === 'low' ? -e : e) - s * 0.0001;
+      if (bs === null || sco > bs) { bs = sco; best = s; }
+    }
+    return best;
+  };
+  const commit = (d, s, n, cell) => { for (let k = 0; k < n * cyc; k++) { occ[d][s + k] = true; cells[d + ':' + (s + k)] = cell; } dayCyc[d] += n; cnt[d][cell.t + (cell.id || '')] = (cnt[d][cell.t + (cell.id || '')] || 0) + 1; };
+  const pickDay = (se) => {
+    const kk = se.cell.t + (se.cell.id || '');
+    const cands = days.filter(d => dayCyc[d] + se.n <= maxCyc).map(d => {
+      const pr = (d + 6) % 7, nx = (d + 1) % 7;
+      return [(cnt[d][kk] || 0) * 1000 + ((cnt[pr][kk] || 0) + (cnt[nx][kk] || 0)) * 40 + dayCyc[d] * 10, d];
+    }).sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    for (const [, d] of cands) { const s = place(d, se.n, se.mode); if (s >= 0) return [d, s]; }
+    return null;
+  };
+  let unplaced = 0;
+  const tryPlace = se => {
+    const r = pickDay(se);
+    if (r) { commit(r[0], r[1], se.n, se.cell); return; }
+    if (se.n > 1) { for (let k = 0; k < se.n; k++) tryPlace({ ...se, n: 1 }); return; }
+    unplaced++;
+  };
+  const reserved = [];
+  if (rev) reserved.push({ cell: { t: 'rev' }, n: rev, mode: 'late', pref: folga >= 0 ? (folga + 6) % 7 : 5 });
+  if (q) reserved.push({ cell: { t: 'q' }, n: q, mode: 'high' });
+  for (let i = 0; i < nSim; i++) reserved.push({ cell: { t: 'sim', id: (fase === 'reta' && dois) ? i + 1 : 0 }, n: simC, mode: 'high' });
+  reserved.forEach(se => {
+    if (se.pref != null && days.includes(se.pref)) { const s = place(se.pref, se.n, se.mode); if (s >= 0) { commit(se.pref, s, se.n, se.cell); return; } }
+    tryPlace(se);
+  });
+  sessions.forEach(se => tryPlace(se));
+  S.cron.cells = cells; S.cron.gerado = true;
+  S.cron.aviso = (R < nd ? 'Seu tempo livre é menor que o número de matérias: as de maior prioridade entram toda semana e as demais devem revezar entre semanas. ' : '') + (unplaced ? `${unplaced} bloco(s) não couberam na grade; ajuste a disponibilidade ou aumente o limite diário.` : '');
+}
+
+function sessionsOf(d) {
+  const [s0, s1] = slotRange(), cyc = techCyc(), out = []; let cur = null;
+  for (let s = s0; s < s1; s++) {
+    const c = S.cron.cells[d + ':' + s]; const sig = c ? c.t + (c.id || '') : null;
+    if (cur && cur.sig === sig && cur.e === s) { cur.e = s + 1; continue; }
+    if (cur) out.push(cur);
+    cur = c ? { sig, c, s, e: s + 1 } : null;
+  }
+  if (cur) out.push(cur);
+  return out.map(x => ({ ...x, cyc: Math.max(1, Math.round((x.e - x.s) / cyc)) }));
+}
+function nomeCell(c) {
+  if (c.t === 'rev') return 'Revisão semanal';
+  if (c.t === 'q') return 'Questões e caderno de erros';
+  if (c.t === 'sim') return c.id ? `Simulado · Dia ${c.id}` : (Number(S.perfil.dias) === 2 ? 'Simulado Dia 1 ou 2' : 'Simulado parcial');
+  const d = S.disc.find(x => x.id === c.id); return d ? d.nome : '—';
+}
+function aquecimento(d) {
+  if (!S.ferr.includes('espacada') || d === Number(S.disp.folga)) return [];
+  if (!sessionsOf(d).length) return [];
+  const m = {};
+  [1, 3, 7].forEach(lag => {
+    const src = ((d - lag) % 7 + 7) % 7; if (src === Number(S.disp.folga)) return;
+    sessionsOf(src).forEach(se => { if (se.c.t === 'd' && !(se.c.id in m)) m[se.c.id] = lag; });
+  });
+  return Object.entries(m).sort((a, b) => prioScore(b[0]) - prioScore(a[0])).slice(0, 3)
+    .map(([id, lag]) => ({ nome: (S.disc.find(x => x.id === id) || {}).nome, lag }));
+}
+function metrics() {
+  const cells = S.cron.cells, byDay = Array(7).fill(0), per = {}; let est = 0, rev = 0, qs = 0, sim = 0;
+  for (const k in cells) {
+    const c = cells[k], d = +k.split(':')[0]; byDay[d] += .5;
+    if (c.t === 'd') { est += .5; per[c.id] = (per[c.id] || 0) + .5; } else if (c.t === 'rev') rev += .5; else if (c.t === 'sim') sim += .5; else qs += .5;
+  }
+  const dia = { 1: 0, 2: 0 };
+  S.disc.forEach(d => (d.dp || [1]).forEach(g => { dia[g] = (dia[g] || 0) + (per[d.id] || 0); }));
+  return { total: est + rev + qs + sim, est, rev, qs, sim, byDay, per, dia, cap: capacityHours() };
+}
+function semaforo(m) {
+  const L = [], sono = sonoPlanejado(), alvo = alvoSono();
+  L.push(sono >= alvo ? ['ok', `Sono planejado: ${hh(sono)} h (meta ${alvo} h).`] : ['warn', `Sono planejado de ${hh(sono)} h, abaixo da meta de ${alvo} h. Ajuste os horários na fase anterior.`]);
+  L.push(Number(S.disp.folga) >= 0 ? ['ok', `Dia de descanso: ${DAYS[S.disp.folga]}.`] : ['warn', 'Nenhum dia de descanso. Sem pausa semanal, o risco de exaustão aumenta.']);
+  const mx = Math.max(...m.byDay), dia = DAYS[m.byDay.indexOf(mx)];
+  L.push(mx <= S.disp.maxDia + .01 ? ['ok', `Maior carga em um dia: ${hh(mx)} h (${dia}), dentro do seu limite.`] : ['warn', `${dia} passou do seu limite diário (${hh(mx)} h).`]);
+  L.push(m.total <= m.cap * .9 + .01 ? ['ok', `Carga total de ${hh(m.total)} h para uma capacidade de ${hh(m.cap)} h: há folga para imprevistos.`] : ['warn', `Carga total de ${hh(m.total)} h está perto da capacidade (${hh(m.cap)} h). Deixe uma reserva.`]);
+  if (Number(S.perfil.dias) === 2) {
+    const a = m.dia[1], b = m.dia[2], r = Math.max(a, b) ? Math.min(a, b) / Math.max(a, b) : 1;
+    L.push(r >= .4 ? ['ok', `Equilíbrio entre os dias de prova: Dia 1 com ${hh(a)} h e Dia 2 com ${hh(b)} h de disciplinas.`] : ['warn', `Os dias de prova estão desequilibrados: Dia 1 com ${hh(a)} h e Dia 2 com ${hh(b)} h. Mexa nos blocos ou nas prioridades.`]);
+  }
+  const falt = S.disc.filter(d => !(m.per[d.id] > 0));
+  if (falt.length) L.push(['warn', `Sem bloco nesta semana: ${falt.map(d => d.nome).join(', ')}. Alterne entre semanas ou aumente as horas.`]);
+  let seg = 0; const longos = [];
+  for (let d = 0; d < 7; d++) { const [s0, s1] = slotRange(); let run = 0; for (let s = s0; s <= s1; s++) { if (s < s1 && S.cron.cells[d + ':' + s]) run++; else { if (run * .5 > 3) longos.push(DS[d]); run = 0; } } }
+  if (longos.length) L.push(['warn', `Mais de 3 h seguidas em: ${[...new Set(longos)].join(', ')}. Inclua uma pausa longa.`]);
+  return L;
+}
+/* ================= HELPERS DE TELA ================= */
+const ATOS = { 1: 'Ato 1 · Ação', 2: 'Ato 2 · Teoria', 3: 'Ato 3 · Ação' };
+const hdr = (ato, fase, t, sub) => `<div class="phase-header"><div class="ph-tag"><span class="tag-ato a${ato}">${ATOS[ato]}</span><span class="tag-fase">${fase}</span></div><h1 tabindex="-1" id="h1">${t}</h1><p>${sub}</p></div>`;
+const nav = (label = 'Próxima fase') => `<div class="nav noprint">${S.step > 0 ? '<button class="btn ghost" data-act="prev">← Voltar</button>' : '<span></span>'}<button class="btn primary" data-act="next">${label} →</button></div>`;
+const ta = (bind, min, ph, val, id) => `<textarea ${id ? `id="${id}"` : ''} data-bind="${bind}" data-wc="${min}" placeholder="${esc(ph)}">${esc(val)}</textarea><div class="wc ${wc(val) >= min ? 'ok' : ''}">${wc(val)} palavras (mín. ${min})</div>`;
+const nome1 = () => esc((S.perfil.nome || '').trim().split(/\s+/)[0] || '');
+const colOf = c => c.t === 'rev' ? '#b48bff' : c.t === 'q' ? '#5ab4ff' : c.t === 'sim' ? '#ff9f43' : `hsl(${(Math.max(0, S.disc.findIndex(x => x.id === c.id)) * 47 + 160) % 360} 62% 62%)`;
+const abbr = n => { const w = String(n).replace(/,/g, '').split(/\s+/).filter(x => x.length > 2); return w.length > 1 ? w.slice(0, 2).map(x => x[0]).join('').toUpperCase() : String(n).slice(0, 4); };
+const needLingua = () => { const p = S.perfil; return p.foco === 'enem' || p.foco === 'macro' || (p.foco === 'sis' && (p.etapa === '2' || p.etapa === '3')); };
+const codigo = () => { try { return btoa(unescape(encodeURIComponent(JSON.stringify(S)))); } catch (e) { return ''; } };
+const alertaAtivo = () => {
+  const txt = [S.raio.rotina, S.raio.atrapalha, S.raio.tentou, S.pre.texto].join(' ');
+  return S.energia.sono < 5 || S.raio.obst.ansiedade === 4 || /n[aã]o aguento mais|desistir de tudo|sem sa[ií]da|me machucar|acabar com tudo|n[aã]o quero mais viver|queria sumir|n[aã]o vale a pena viver/i.test(txt);
+};
+const apoioBox = (forte) => `<div class="callout ${forte ? 'warn' : 'info'}"><b>Quando buscar apoio profissional</b>Estudar não precisa custar a sua saúde. Se o sono ruim persiste por semanas, se há crises de pânico, tristeza prolongada ou sensação de que não dá mais, procure um psicólogo, a UBS ou o CAPS da sua região, e converse com alguém de confiança. Se estiver em sofrimento intenso, o CVV atende 24 h, de graça, pelo telefone <b style="display:inline">188</b>.</div>`;
+
+
+/* ================= CALENDÁRIO ================= */
+const MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+function calMonth() { return S.ui.cal || (S.perfil.data1 || hojeISO()).slice(0, 7); }
+function calHtml() {
+  const p = S.perfil, dois = Number(p.dias) === 2, [Y, M] = calMonth().split('-').map(Number);
+  const start = new Date(Y, M - 1, 1).getDay(), n = new Date(Y, M, 0).getDate(), hoje = hojeISO();
+  let cells = ''; for (let i = 0; i < start; i++) cells += '<span></span>';
+  for (let d = 1; d <= n; d++) {
+    const iso = `${Y}-${pad2(M)}-${pad2(d)}`, sel = iso === p.data1 || iso === p.data2;
+    const cls = [iso === hoje ? 'today' : '', iso === p.data1 ? 's1' : '', iso === p.data2 ? 's2' : '', (p.data1 && p.data2 && iso > p.data1 && iso < p.data2) ? 'btw' : ''].join(' ');
+    cells += `<button type="button" class="${cls}" data-act="calPick" data-v="${iso}" ${iso < hoje ? 'disabled' : ''} aria-pressed="${sel}" aria-label="${d} de ${MESES[M - 1]} de ${Y}">${d}</button>`;
+  }
+  const slot = Number(S.ui.slot) === 2 && dois ? 2 : 1;
+  return `<div class="cal">
+  ${dois ? `<div class="row nofill" style="margin-bottom:10px"><button type="button" class="btn sm ${slot === 1 ? 'primary' : ''}" data-act="calSlot" data-v="1">Dia 1 · ${p.data1 ? fmtData(p.data1) : 'marcar'}</button><button type="button" class="btn sm ${slot === 2 ? 'primary' : ''}" data-act="calSlot" data-v="2">Dia 2 · ${p.data2 ? fmtData(p.data2) : 'marcar'}</button></div>` : ''}
+  <div class="cal-h"><button type="button" class="btn sm" data-act="calNav" data-v="-1" aria-label="Mês anterior">‹</button><b>${MESES[M - 1][0].toUpperCase() + MESES[M - 1].slice(1)} de ${Y}</b><button type="button" class="btn sm" data-act="calNav" data-v="1" aria-label="Próximo mês">›</button></div>
+  <div class="cal-g">${['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((x, i) => `<span class="dw" aria-hidden="true">${x}</span>`).join('')}${cells}</div>
+  <p class="small mut" style="margin:10px 0 0">${dois ? `Toque no dia para marcar o <b>Dia ${slot}</b>.` : 'Toque no dia da prova.'}${p.data1 ? '' : ' Dias que já passaram ficam desativados.'}</p></div>`;
+}
+
+/* ================= FASE 0 · PERFIL ================= */
+function r0() {
+  const p = S.perfil, f = fasePreparo(), fx = diasFixos(), dois = Number(p.dias) === 2, of = OFICIAL[p.foco];
+  const etapas = `<label class="lab">Em qual etapa você está?</label><div class="opts tight">${['1', '2', '3'].map(e => `<button class="opt ${p.etapa === e ? 'on' : ''}" data-act="etapa" data-v="${e}"><b>${p.foco === 'psc' ? 'PSC ' : 'SIS '}${e}</b><small>${e}ª série do Ensino Médio</small></button>`).join('')}</div>`;
+  let cond = '';
+  if (p.foco === 'psc') cond = etapas;
+  if (p.foco === 'sis') cond = `<label class="lab" for="f-inst">Qual instituição?</label><input type="text" id="f-inst" data-bind="perfil.instit" value="${esc(p.instit)}" placeholder="Ex.: UEA">` + etapas;
+  if (p.foco === 'macro') cond = `<div class="callout info"><b>Macro UEA (Vunesp)</b>A prova tem dois dias. No Dia 2, as disciplinas mudam conforme a área do curso. Escolha a sua:</div><div class="opts">${MACRO_AREAS.map(([id, t, d]) => `<button class="opt ${p.areaCurso === id ? 'on' : ''}" data-act="areaCurso" data-v="${id}"><b>${t}</b><small>${d}</small></button>`).join('')}</div>`;
+  if (p.foco === 'concurso') cond = `<div class="callout info"><b>Concurso: as matérias variam por edital</b>Na próxima fase você vai digitar as disciplinas do seu edital. Se quiser, já deixe o cargo e a banca registrados.</div><div class="rr2"><div><label class="lab" for="f-cargo">Cargo (opcional)</label><input type="text" id="f-cargo" data-bind="perfil.cargo" value="${esc(p.cargo)}"></div><div><label class="lab" for="f-banca">Banca (opcional)</label><input type="text" id="f-banca" data-bind="perfil.banca" value="${esc(p.banca)}"></div></div>`;
+  if (needLingua()) cond += `<label class="lab">Língua estrangeira da prova</label><div class="opts tight">${['Inglês', 'Espanhol'].map(l => `<button class="opt ${p.lingua === l ? 'on' : ''}" data-act="lingua" data-v="${l}"><b>${l}</b></button>`).join('')}</div>`;
+  const diaInfo = DIAINFO[p.foco] ? `<div class="callout info"><b>${p.foco === 'enem' ? 'ENEM: dois domingos' : 'Macro UEA: dois dias'}</b><ul style="margin:6px 0 0;padding-left:18px">${DIAINFO[p.foco].map(x => `<li>${x}</li>`).join('')}</ul>Seu plano vai dividir o estudo entre os dois dias.</div>` : '';
+  const dat = p.foco ? `<label class="lab" style="margin-top:18px">Data da prova</label>
+    ${fx === null ? `<div class="hint">Quantos dias de prova o seu concurso tem?</div><div class="opts tight">${[1, 2].map(n => `<button class="opt ${Number(p.dias) === n ? 'on' : ''}" data-act="diasN" data-v="${n}"><b>${n} dia${n > 1 ? 's' : ''}</b></button>`).join('')}</div>` : diaInfo}
+    <label class="row nofill" style="margin:10px 0;gap:8px"><input type="checkbox" data-bind="perfil.semData" data-re="1" ${p.semData ? 'checked' : ''}> Ainda não sei a data</label>
+    ${p.semData ? '' : `${of ? `<button type="button" class="btn sm" data-act="oficial" style="margin-bottom:10px">Usar ${of.t}</button><div class="small mut" style="margin-bottom:10px">Confirme sempre no edital. Há materiais com datas diferentes para o mesmo exame.</div>` : ''}${calHtml()}
+    ${p.data1 ? `<div class="callout ${f.k === 'passou' ? 'warn' : f.k === 'reta' ? 'bad' : 'info'}"><b>${dois ? `Dia 1: ${fmtData(p.data1)}${p.data2 ? ' · Dia 2: ' + fmtData(p.data2) : ''}` : fmtData(p.data1)}</b>${esc(f.t)} <button type="button" class="btn sm ghost" data-act="calClear" style="margin-top:6px">Limpar datas</button></div>` : ''}`}
+    <label class="lab">Como é a sua rotina hoje?</label><div class="opts">${SITUACOES.map(x => `<button class="opt ${p.situacao === x.id ? 'on' : ''}" data-act="situ" data-v="${x.id}"><b>${x.t}</b><small>${x.d}</small></button>`).join('')}</div>` : '';
+  return `<div class="hero"><h1 tabindex="-1" id="h1">Rotina Neural de Estudos</h1>
+  <p class="mut">Uma jornada para entender como você estuda, descobrir o que está travando e sair com um cronograma tático e um plano de contingência feitos para a sua vida. Serve para vestibular, seriado e concurso.</p>
+  <div class="chips"><span class="chip">⏱ 25 a 35 min</span><span class="chip">🧩 Autopercepção</span><span class="chip">🧪 Checkpoint</span><span class="chip">📅 Cronograma tático</span><span class="chip">🛡 Plano de contingência</span></div></div>
+  <div class="card"><h2>Quem está jogando?</h2>
+  <label class="lab" for="f-nome">Nome ou apelido</label><input type="text" id="f-nome" data-bind="perfil.nome" autocomplete="given-name" value="${esc(p.nome)}" placeholder="O nome que você usa no dia a dia">
+  <label class="lab" for="f-idade">Idade</label><input type="number" id="f-idade" inputmode="numeric" min="10" max="99" data-bind="perfil.idade" value="${esc(p.idade)}">
+  <label class="lab">Qual é o seu foco?</label><div class="opts">${FOCOS.map(x => `<button class="opt ${p.foco === x.id ? 'on' : ''}" data-act="foco" data-v="${x.id}"><b>${x.t}</b><small>${x.d}</small></button>`).join('')}</div>
+  ${cond ? `<div style="margin-top:6px">${cond}</div>` : ''}${dat}</div>
+  <details class="imp card noprint"><summary>Já tenho um código de retomada</summary><p class="small mut">Cole o código gerado em outro aparelho para continuar de onde parou.</p><textarea id="codeIn" placeholder="Cole o código aqui"></textarea><button class="btn sm" data-act="importar" style="margin-top:8px">Carregar progresso</button></details>
+  <div class="small mut">Seus dados ficam só neste navegador. Nada é enviado para servidores.</div>${nav('Começar')}`;
+}
+function v0() {
+  const p = S.perfil;
+  if ((p.nome || '').trim().length < 2) return 'Digite seu nome.';
+  const i = Number(p.idade); if (!(i >= 10 && i <= 99)) return 'Informe sua idade (entre 10 e 99).';
+  if (!p.foco) return 'Escolha o seu foco.';
+  if ((p.foco === 'psc' || p.foco === 'sis') && !p.etapa) return 'Escolha a sua etapa.';
+  if (p.foco === 'macro' && !p.areaCurso) return 'Escolha a área do seu curso.';
+  if (needLingua() && !p.lingua) return 'Escolha a língua estrangeira da prova.';
+  if (!p.semData) {
+    if (!p.data1) return 'Marque no calendário a data da prova, ou escolha "ainda não sei".';
+    if (Number(p.dias) === 2 && !p.data2) return 'Marque também a data do Dia 2.';
+  }
+  if (!p.situacao) return 'Escolha a sua rotina atual.';
+  return null;
+}
+
+/* ================= FASE 1 · DISCIPLINAS ================= */
+function ensureDisc() {
+  const p = S.perfil, key = [p.foco, p.etapa, p.lingua, p.instit, p.areaCurso, p.dias].join('|');
+  if (S.discKey === key) return;
+  if (p.foco === 'concurso') { if (!S.discKey.startsWith('concurso')) S.disc = []; }
+  else S.disc = presetDisc().map(([nome, w, q, dp]) => ({ id: 'd' + (++S.nid), nome, w, q: q || null, dp: dp || [1] }));
+  S.discKey = key; S.prio = {}; S.cron.gerado = false;
+}
+function r1() {
+  const p = S.perfil, conc = p.foco === 'concurso', dois = Number(p.dias) === 2;
+  const nota = {
+    sis: `<div class="callout info"><b>SIS</b>A lista segue o guia de estudos do SIS/UEA (OneStudy). Nas etapas 2 e 3 a prova inclui redação. Confirme as disciplinas no edital do ano e ajuste se precisar.</div>`,
+    psc: `<div class="callout info"><b>PSC</b>As etapas 1 e 2 cobram essas oito disciplinas. Na etapa 3, confira o edital: a lista abaixo é só o ponto de partida.</div>`,
+    enem: `<div class="callout info"><b>ENEM em dois dias</b>${DIAINFO.enem.join(' ')} Cada disciplina mostra o dia em que cai. Desmarque o que não for prioridade para o seu curso.</div>`,
+    macro: `<div class="callout info"><b>Macro UEA</b>Dia 1: Conhecimentos Gerais (84 questões). Dia 2: 36 questões de Conhecimentos Específicos, que mudam conforme o curso, e Redação. Português e as duas disciplinas da sua área valem nos dois dias. Confirme no edital da Vunesp (projeto UEAM2601).</div>`
+  }[p.foco] || '';
+  const lista = S.disc.length ? S.disc.map(d => `<span class="tag">${esc(d.nome)}${dois && !conc ? ` <span class="badge dia">${dpLabel(d.dp)}</span>` : ''}${conc && dois ? ` <select data-dp="${d.id}" aria-label="Dia de prova de ${esc(d.nome)}" style="width:auto;min-height:30px;padding:2px 6px"><option value="1" ${(d.dp || [1]).join() === '1' ? 'selected' : ''}>Dia 1</option><option value="2" ${(d.dp || [1]).join() === '2' ? 'selected' : ''}>Dia 2</option><option value="12" ${(d.dp || []).length > 1 ? 'selected' : ''}>Dias 1 e 2</option></select>` : ''}${conc ? ` <input type="number" min="0" inputmode="numeric" data-dq="${d.id}" value="${d.q || ''}" placeholder="nº q." aria-label="Número de questões de ${esc(d.nome)}" style="width:72px;min-height:30px;padding:2px 6px">` : ''}<button data-act="delDisc" data-id="${d.id}" aria-label="Remover ${esc(d.nome)}">✕</button></span>`).join('') : '<span class="mut">Nenhuma disciplina ainda.</span>';
+  return hdr(1, 'Fase 1 · Mapa de Disciplinas', conc ? 'Quais matérias caem no seu concurso?' : 'Confira suas disciplinas', conc ? 'No concurso, as matérias variam de edital para edital. Abra o seu edital e liste as disciplinas aqui.' : 'Montei a lista padrão da sua prova. Remova o que não vale para você e adicione o que faltar.')
+    + `<div class="card">${conc ? `<div class="callout warn"><b>Use o edital como fonte</b>Digite cada disciplina e, se o edital informar, o número de questões. Isso ajuda a calcular o peso de cada uma.${dois ? ' Como a prova tem 2 dias, indique em que dia cai cada matéria.' : ''}</div>` : nota}
+    <h2>Suas disciplinas (${S.disc.length})</h2><div class="tags" id="dlist">${lista}</div>
+    <label class="lab" for="newd">Adicionar disciplina</label>
+    <div class="row"><input type="text" id="newd" placeholder="Ex.: ${conc ? 'Direito Constitucional' : 'Sociologia'}" style="flex:3">${conc ? '<input type="number" id="newq" min="0" placeholder="nº de questões" style="flex:1">' : ''}<button class="btn" data-act="addDisc" style="flex:0 0 auto">Adicionar</button></div>
+    ${conc ? `<div class="hint" style="margin-top:10px">Sugestões comuns (toque para adicionar):</div><div class="tags">${SUG_CONC.filter(x => !S.disc.some(d => d.nome === x)).map(x => `<button class="sug" data-act="sugDisc" data-v="${esc(x)}">+ ${esc(x)}</button>`).join('')}</div>
+    <details class="imp" style="margin-top:12px"><summary>Colar a lista do edital</summary><textarea id="pasteTa" placeholder="Uma disciplina por linha, ou separadas por vírgula"></textarea><button class="btn sm" data-act="pasteDisc" style="margin-top:8px">Adicionar da lista</button></details>` : `<button class="btn ghost sm" data-act="resetDisc" style="margin-top:12px">Restaurar lista padrão</button>`}</div>${nav()}`;
+}
+function v1() { return S.disc.length >= 3 ? null : 'Escolha pelo menos 3 disciplinas.'; }
+
+/* ================= FASE 2 · ENERGIA ================= */
+function energiaMsg(v) { return v < 40 ? 'Energia baixa. O aproveitamento cai muito. Você pode seguir em versão curta ou voltar mais tarde.' : v < 70 ? 'Energia suficiente para continuar, com pausas.' : 'Ótimo momento para jogar e aprender.'; }
+function r2() {
+  const e = S.energia, T = e.turnos;
+  const turno = (k, nm) => `<div style="margin:10px 0"><b>${nm}</b><div class="scale">${[1, 2, 3, 4, 5].map(v => `<button class="${Number(T[k]) === v ? 'on' : ''}" data-act="turno" data-t="${k}" data-v="${v}" aria-label="${nm} ${v}">${v}</button>`).join('')}</div></div>`;
+  return hdr(1, 'Fase 2 · Energia', `${nome1() ? nome1() + ', q' : 'Q'}ual é o seu nível de energia agora?`, 'Sinceridade aqui faz diferença. Cérebro com pouca energia retém menos, como gravar vídeo com a bateria acabando.')
+    + `<div class="card"><span class="energy-num" id="enum">${e.agora}%</span><input type="range" min="0" max="100" step="5" value="${e.agora}" data-bind="energia.agora" data-live="energiaUp" aria-label="Energia agora"><p id="emsg" class="mut" style="text-align:center">${energiaMsg(e.agora)}</p>
+    <div class="callout warn" id="elow" ${e.agora < 40 ? '' : 'hidden'}><b>Energia abaixo de 40%</b>Nada trava. Escolha como seguir:<div class="row" style="margin-top:8px"><button class="btn sm" data-act="curto">${S.curto ? '✓ Versão curta ativada' : 'Seguir em versão curta'}</button><button class="btn sm ghost" data-act="salvar">Salvar e voltar depois</button></div></div></div>
+    <div class="card"><h2>Seu mapa de energia</h2><p class="mut small">Isso define onde o cronograma vai colocar as matérias difíceis.</p>
+    <label class="lab" for="sono">Quantas horas você tem dormido por noite?</label><select id="sono" data-bind="energia.sono" data-num="1" data-re="1">${[3, 4, 5, 6, 7, 8, 9, 10].map(h => `<option value="${h}" ${e.sono === h ? 'selected' : ''}>${h} h</option>`).join('')}</select>
+    ${e.sono < alvoSono() ? `<div class="callout warn"><b>Abaixo da meta</b>Para a sua idade, a meta é de pelo menos ${alvoSono()} h. O plano vai proteger o seu sono.</div>` : ''}
+    <label class="lab">Quando você rende mais?</label><div class="opts tight">${[['manha', 'Manhã'], ['tarde', 'Tarde'], ['noite', 'Noite']].map(([k, n]) => `<button class="opt ${e.cronotipo === k ? 'on' : ''}" data-act="crono" data-v="${k}"><b>${n}</b></button>`).join('')}</div>
+    <label class="lab">Nota de 1 a 5 para a sua energia em cada turno</label>${turno('manha', 'Manhã (até 12h)')}${turno('tarde', 'Tarde (12h às 18h)')}${turno('noite', 'Noite (a partir das 18h)')}</div>
+    ${S.ui.showCode ? `<div class="card"><b>Código de retomada</b><p class="small mut">Seu progresso já fica salvo neste navegador. Para continuar em outro aparelho, copie o código.</p><textarea readonly>${esc(codigo())}</textarea></div>` : ''}${nav()}`;
+}
+const v2 = () => (S.energia.cronotipo ? null : 'Escolha quando você rende mais.');
+
+/* ================= FASE 3 · RAIO-X ================= */
+function r3() {
+  const R = S.raio, m = S.curto ? 0 : 5;
+  const feitos = OB.filter(o => R.obst[o.id] !== undefined).length;
+  return hdr(1, 'Fase 3 · Raio-X do Estudo', 'Como você estuda hoje?', 'Sem certo ou errado. Quanto mais sincera a resposta, mais útil o plano. Aqui nascem os "chefões" que o seu plano de contingência vai enfrentar.')
+    + (alertaAtivo() ? `<div class="callout warn"><b>Sinais de sobrecarga</b>Valeu pela sinceridade. Seu plano vai considerar isso. Se estiver pesado, conversar com um psicólogo, a UBS ou alguém de confiança ajuda; em sofrimento intenso, o CVV atende 24 h pelo 188, gratuito.</div>` : '')
+    + `<div class="card"><h2>O que aparece na sua rotina?</h2><p class="hint">Toque em todas que fazem sentido.</p><div class="opts">${PRAT.map((t, i) => `<button class="opt ${R.prat.includes(i) ? 'on' : ''}" data-act="prat" data-v="${i}">${esc(t)}</button>`).join('')}</div></div>
+    <div class="card"><h2>Termômetro de obstáculos (${feitos}/${OB.length})</h2><p class="hint">Com que frequência isso acontece com você?</p>${OB.map(o => `<div class="obst"><b>${o.ic} ${o.nome}</b><div class="small mut">${o.frase}</div><div class="scale" role="group" aria-label="${o.nome}">${ESC4.map((l, v) => `<button class="${R.obst[o.id] === v ? 'on' : ''}" data-act="obst" data-id="${o.id}" data-v="${v}" title="${l}">${v}<br><span style="font-size:.66rem;font-weight:500">${l}</span></button>`).join('')}</div></div>`).join('')}</div>
+    <div class="card"><h2>Em suas palavras</h2>${S.curto ? '<div class="callout info">Versão curta: estes campos são opcionais.</div>' : ''}
+    <label class="lab" for="t-rot">Como é a sua rotina de estudos hoje?</label><div class="hint">O que já funciona, o que dificulta, como você se sente.</div>${ta('raio.rotina', m, 'Descreva o seu dia a dia real', R.rotina, 't-rot')}
+    <label class="lab" for="t-atr">O que mais atrapalha a sua concentração?</label>${ta('raio.atrapalha', m, 'Ex.: celular do lado, irmão pequeno em casa, cansaço', R.atrapalha, 't-atr')}
+    <label class="lab" for="t-ten">Você já tentou algum método ou plano antes? O que aconteceu?</label>${ta('raio.tentou', 0, 'Opcional: o que ajudou e o que não funcionou', R.tentou, 't-ten')}</div>${nav()}`;
+}
+function v3() {
+  const R = S.raio;
+  if (!R.prat.length) return 'Marque ao menos uma opção sobre a sua rotina de estudo.';
+  if (OB.some(o => R.obst[o.id] === undefined)) return 'Responda os 8 obstáculos do termômetro.';
+  if (!S.curto && (wc(R.rotina) < 5 || wc(R.atrapalha) < 5)) return 'Escreva ao menos 5 palavras nos dois campos.';
+  S.alerta = alertaAtivo(); return null;
+}
+
+
+/* ================= ILUSTRAÇÕES DAS FERRAMENTAS ================= */
+const FERX = {
+  espacada: { cot: [['🎵', 'Música nova: você não grava ouvindo uma vez. Ouve de novo no dia seguinte, depois na semana, e ela fica.'], ['🗣', 'Idioma no app: as palavras que você revê sempre ficam. As vistas uma única vez somem.'], ['🏋', 'Academia: treinar um pouco a cada dia rende mais do que tudo de uma vez no domingo.']], ad: ['4 horas de Química na véspera da prova. Uma semana depois, quase nada ficou.', '4 blocos de 1 hora em dias diferentes. O mesmo tempo, muito mais memória.'] },
+  ativa: { cot: [['🍳', 'Receita: ler dez vezes não ensina. Cozinhar sem olhar o caderno mostra o que você realmente sabe.'], ['🗺', 'Caminho: seguir o GPS não ensina o trajeto. Tentar ir sem ele primeiro ensina.'], ['🎮', 'Videogame: você aprende a fase errando e tentando de novo, não lendo o manual.']], ad: ['Reler o capítulo três vezes e sentir que "está familiar".', 'Fechar o livro, escrever o que lembra e conferir o que faltou.'] },
+  foco: { cot: [['📺', 'Série: você maratona porque o próximo episódio começa sozinho. Blocos curtos com pausa criam esse ritmo para o estudo.'], ['🏃', 'Treino intervalado: esforço curto e descanso rendem mais do que arrastar o ritmo.'], ['🔋', 'Celular: a bateria dura mais quando você recarrega aos poucos, não quando deixa zerar.']], ad: ['3 horas seguidas com o celular ao lado. A atenção escapa a cada 5 minutos.', '3 ciclos de 25 minutos com pausa e celular longe. Menos cansaço, mais foco.'] },
+  habito: { cot: [['🪥', 'Escovar os dentes: o gatilho é acordar, a rotina é escovar, a recompensa é a boca fresca. Ninguém decide isso todo dia.'], ['☕', 'Café da manhã: o gatilho é o horário, e o corpo já vai para a cozinha.'], ['🚌', 'Caminho do ônibus: você chega sem pensar, porque o gatilho é sempre o mesmo.']], ad: ['"Hoje eu estudo quando tiver vontade." A vontade nunca chega na hora certa.', '"Depois do jantar, abro o caderno por 25 minutos." Começar vira automático.'] },
+  sono: { cot: [['🔋', 'Celular: ninguém espera bom desempenho com 5% de bateria. O cérebro também precisa recarregar.'], ['🖥', 'Computador: reiniciar libera memória. Dormir faz algo parecido com o que você aprendeu.'], ['🍲', 'Comida do dia seguinte: o sabor assenta de um dia para o outro. O aprendizado também assenta durante o sono.']], ad: ['Estudar até 2h da manhã e acordar sem lembrar o que leu.', 'Parar no horário, dormir bem e rever em 10 minutos no dia seguinte.'] }
+};
+const ILU = {
+  espacada: () => `<svg viewBox="0 0 360 172" role="img" aria-label="Gráfico: sem revisar, a lembrança cai rápido. Com revisões em 1, 3 e 7 dias, ela cai cada vez mais devagar.">
+  <line x1="30" y1="130" x2="345" y2="130" style="stroke:var(--mut)" stroke-width="1.5"/><line x1="30" y1="18" x2="30" y2="130" style="stroke:var(--mut)" stroke-width="1.5"/>
+  <text x="36" y="14" class="m" font-size="10.5">quanto você lembra</text>
+  <path d="M30 36 C 70 100 110 118 340 124" fill="none" style="stroke:var(--red)" stroke-width="3" stroke-dasharray="6 5"/>
+  <path d="M30 36 C 50 60 65 75 80 80 L80 38 C 100 62 120 74 140 78 L140 40 C 170 60 200 70 230 74 L230 42 C 270 56 310 66 340 70" fill="none" style="stroke:var(--teal)" stroke-width="3.5"/>
+  ${[[80, 38], [140, 40], [230, 42]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="5" style="fill:var(--amber)"/>`).join('')}
+  ${[[30, 'estudou'], [80, 'R+1'], [140, 'R+3'], [230, 'R+7']].map(([x, t]) => `<text x="${x}" y="146" font-size="11" font-weight="700" text-anchor="middle">${t}</text>`).join('')}
+  <line x1="40" y1="162" x2="70" y2="162" style="stroke:var(--red)" stroke-width="3" stroke-dasharray="6 5"/><text x="76" y="165" font-size="10.5">sem revisar</text>
+  <line x1="170" y1="162" x2="200" y2="162" style="stroke:var(--teal)" stroke-width="3.5"/><text x="206" y="165" font-size="10.5">com revisões espaçadas</text></svg>`,
+  ativa: () => `<svg viewBox="0 0 360 150" role="img" aria-label="Três passos: feche o caderno, responda de memória, confira e anote os erros.">
+  ${[['📕', '1. Feche', 'o caderno'], ['✏️', '2. Responda', 'sem olhar, de memória'], ['✅', '3. Confira', 'anote onde errou']].map((c, i) => { const x = 10 + i * 118; return `<rect x="${x}" y="20" width="104" height="108" rx="14" style="fill:var(--card2);stroke:var(--teal)" stroke-width="2"/><text x="${x + 52}" y="60" font-size="30" text-anchor="middle">${c[0]}</text><text x="${x + 52}" y="88" font-size="12" font-weight="700" text-anchor="middle">${c[1]}</text><text x="${x + 52}" y="106" class="m" font-size="9.5" text-anchor="middle">${c[2]}</text>${i < 2 ? `<text x="${x + 111}" y="78" font-size="22" class="m" text-anchor="middle">›</text>` : ''}`; }).join('')}</svg>`,
+  foco: () => `<svg viewBox="0 0 360 150" role="img" aria-label="Linha do tempo: três ciclos de 25 minutos de foco com pausas de 5 minutos e uma pausa longa no final.">
+  <text x="24" y="30" font-size="22">📵</text><text x="54" y="30" class="m" font-size="11">celular fora do alcance</text>
+  ${[0, 1, 2].map(i => { const x = 16 + i * 82; return `<rect x="${x}" y="58" width="66" height="38" rx="8" style="fill:var(--teal)"/><text x="${x + 33}" y="81" font-size="12" font-weight="800" text-anchor="middle" style="fill:#04151e">25 min</text><rect x="${x + 66}" y="58" width="16" height="38" rx="4" style="fill:var(--amber)"/><text x="${x + 33}" y="116" class="m" font-size="10" text-anchor="middle">ciclo ${i + 1}</text>`; }).join('')}
+  <rect x="266" y="58" width="78" height="38" rx="8" style="fill:var(--violet)"/><text x="305" y="81" font-size="11" font-weight="800" text-anchor="middle" style="fill:#120a2a">pausa longa</text>
+  <rect x="16" y="130" width="10" height="10" rx="2" style="fill:var(--amber)"/><text x="32" y="139" class="m" font-size="10">pausa de 5 min</text></svg>`,
+  habito: () => `<svg viewBox="0 0 360 170" role="img" aria-label="Circuito do hábito: gatilho, rotina e recompensa, que se repete todo dia.">
+  ${[['🍽', 'Gatilho', 'terminar o jantar'], ['📚', 'Rotina', '25 min de estudo'], ['🎬', 'Recompensa', '10 min de série']].map((c, i) => { const x = 10 + i * 120; return `<rect x="${x}" y="16" width="100" height="84" rx="14" style="fill:var(--card2);stroke:var(--teal)" stroke-width="2"/><text x="${x + 50}" y="46" font-size="24" text-anchor="middle">${c[0]}</text><text x="${x + 50}" y="68" font-size="12" font-weight="700" text-anchor="middle">${c[1]}</text><text x="${x + 50}" y="85" class="m" font-size="9.5" text-anchor="middle">${c[2]}</text>${i < 2 ? `<text x="${x + 110}" y="62" font-size="22" class="m" text-anchor="middle">›</text>` : ''}`; }).join('')}
+  <path d="M300 102 L300 132 Q300 144 288 144 L72 144 Q60 144 60 132 L60 108" fill="none" style="stroke:var(--amber)" stroke-width="2.5"/><path d="M54 110 L60 102 L66 110 Z" style="fill:var(--amber)"/>
+  <text x="180" y="138" class="m" font-size="10.5" text-anchor="middle">repete todo dia e vira automático</text></svg>`,
+  sono: () => `<svg viewBox="0 0 360 172" role="img" aria-label="Energia ao longo do dia, com picos de manhã e à noite, e a faixa de sono em que o cérebro organiza o que foi aprendido.">
+  <rect x="233" y="14" width="112" height="116" rx="8" style="fill:var(--violet);opacity:.22"/><text x="289" y="40" font-size="22" text-anchor="middle">🌙</text>
+  <text x="289" y="62" font-size="10" font-weight="700" text-anchor="middle">sono</text><text x="289" y="76" class="m" font-size="9" text-anchor="middle">o cérebro organiza</text><text x="289" y="88" class="m" font-size="9" text-anchor="middle">o que você aprendeu</text>
+  <line x1="20" y1="130" x2="345" y2="130" style="stroke:var(--mut)" stroke-width="1.5"/>
+  <path d="M20 112 C 50 48 80 38 102 52 S 130 96 152 100 S 205 42 233 66" fill="none" style="stroke:var(--teal)" stroke-width="3.5"/>
+  <text x="86" y="34" font-size="16">⭐</text><text x="208" y="40" font-size="16">⭐</text>
+  <text x="100" y="22" class="m" font-size="9.5">pico: matéria difícil</text><text x="136" y="114" class="m" font-size="9.5" text-anchor="middle">queda pós-almoço</text>
+  ${[[20, '6h'], [100, '12h'], [180, '18h'], [233, '22h'], [345, '6h']].map(([x, t]) => `<text x="${x}" y="146" font-size="10.5" font-weight="700" text-anchor="middle">${t}</text>`).join('')}
+  <text x="180" y="166" class="m" font-size="10" text-anchor="middle">sua energia durante o dia (ilustrativo)</text></svg>`
+};
+
+/* ================= FASE 4 · LABORATÓRIO ================= */
+function r4() {
+  const conc = S.perfil.foco === 'concurso';
+  return hdr(2, 'Fase 4 · Laboratório do Cérebro', 'Cinco ferramentas que funcionam', 'Abra cada carta: veja a ilustração, os exemplos do dia a dia e faça o teste rápido. Depois, escolha o que entra no seu plano.')
+    + `<div class="callout info"><b>Honestidade científica</b>Repetição espaçada e autoteste têm forte evidência. Reler e grifar rendem pouco. O Pomodoro é uma ferramenta de organização, então teste o tamanho de bloco que funciona para você.</div>`
+    + FER.map((f, i) => { const on = S.ferr.includes(f.id), x = FERX[f.id]; return `<details class="fer ${on ? 'on' : ''}" ${i === 0 ? 'open' : ''}><summary><span>${f.ic} ${f.t}</span><span class="small mut tg">${on ? '✓ no plano · ' : ''}</span></summary><div class="in">
+      <p>${f.ci}</p><div class="ilu">${ILU[f.id]()}</div>
+      <h3>No dia a dia</h3><div class="cena">${x.cot.map(([e, t]) => `<div><span aria-hidden="true">${e}</span><p>${t}</p></div>`).join('')}</div>
+      <div class="ad"><div class="antes"><b>Sem a ferramenta</b><p>${x.ad[0]}</p></div><div class="depois"><b>Com a ferramenta</b><p>${x.ad[1]}</p></div></div>
+      <p><b>Na prática:</b> ${conc ? f.exc : f.exv}</p><p><b>Teste agora (2 min):</b> ${f.teste}</p>
+      ${f.id === 'habito' ? `<label class="lab" for="h-g">Escolha um gatilho real para iniciar o estudo</label><input type="text" id="h-g" data-bind="habito.gatilho" value="${esc(S.habito.gatilho)}" placeholder='Ex.: "Depois do jantar", "Ao abrir o caderno"'><label class="lab" for="h-r">Escolha uma recompensa saudável</label><input type="text" id="h-r" data-bind="habito.recompensa" value="${esc(S.habito.recompensa)}" placeholder="Ex.: 10 min de série, marcar no planner">` : ''}
+      <p class="small mut">${f.plano}</p><button class="btn sm ${on ? 'good' : ''}" data-act="fer" data-v="${f.id}" aria-pressed="${on}">${on ? '✓ No meu plano' : 'Quero no meu plano'}</button></div></details>`; }).join('') + nav('Ir para o checkpoint');
+}
+function v4() {
+  if (!S.ferr.length) return 'Escolha ao menos uma ferramenta para o seu plano.';
+  if (S.ferr.includes('habito') && ((S.habito.gatilho || '').trim().length < 3 || (S.habito.recompensa || '').trim().length < 3)) return 'Preencha o gatilho e a recompensa do circuito do hábito.';
+  return null;
+}
+
+/* ================= FASE 5 · CHECKPOINT ================= */
+function ensureQuiz() {
+  QUIZ.forEach((q, i) => { if (!S.check.perm[i]) { const a = [0, 1, 2, 3]; for (let k = 3; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1));[a[k], a[j]] = [a[j], a[k]]; } S.check.perm[i] = a; } });
+}
+function r5() {
+  const c = S.check, locked = c.locked || [];
+  const final = c.graded && (c.score >= 5 || c.tries >= 2);
+  return hdr(2, 'Fase 5 · Checkpoint', 'Hora de ver o que ficou', 'Não é prova: é um espelho. Responda com calma. Cada resposta traz uma explicação.')
+    + QUIZ.map((qq, qi) => {
+      const opts = [qq.ok, ...qq.no], pick = c.ans[qi], g = c.graded && pick !== undefined, lk = locked.includes(qi) || (c.graded);
+      return `<div class="q ${g ? (pick === 0 ? 'ok' : 'no') : ''}"><b>${qi + 1}. ${qq.q}</b>${c.perm[qi].map(oi => `<button class="opt ${pick === oi ? 'on' : ''} ${g && oi === 0 ? 'right' : ''} ${g && pick === oi && oi !== 0 ? 'wrong' : ''}" data-act="qpick" data-q="${qi}" data-o="${oi}" ${lk ? 'disabled' : ''}>${esc(opts[oi])}</button>`).join('')}${g ? `<p class="small mut" style="margin-top:8px">${pick === 0 ? '✓ ' : '✗ '}${esc(qq.exp)}</p>` : ''}</div>`;
+    }).join('')
+    + (c.graded ? `<div class="callout ${c.score >= 5 ? 'ok' : 'warn'}"><b>${c.score} de ${QUIZ.length} acertos</b>${c.score >= 5 ? 'Você domina o essencial. Os pontos errados entram no seu relatório como pontos de atenção.' : c.tries >= 2 ? 'Tudo bem: o importante é ter lido as explicações. Os pontos errados viram pontos de atenção no relatório.' : 'Quase lá. Refaça só as questões erradas depois de ler as explicações.'}</div>` : '')
+    + `<div class="row noprint">${!c.graded ? '<button class="btn good" data-act="qgrade">Corrigir checkpoint</button>' : (!final ? '<button class="btn" data-act="qretry">Refazer só as erradas</button>' : '')}</div>${nav()}`;
+}
+function v5() {
+  const c = S.check; if (!c.graded) return 'Responda e corrija o checkpoint para seguir.';
+  if (c.score < 5 && c.tries < 2) return 'Refaça as questões erradas depois de ler as explicações.'; return null;
+}
+
+/* ================= FASE 6 · RADAR ================= */
+function ensurePrio() {
+  S.disc.forEach(d => { if (!S.prio[d.id]) S.prio[d.id] = { d: 0, p: pesoSugerido(d) }; });
+  Object.keys(S.prio).forEach(id => { if (!S.disc.some(d => d.id === id)) delete S.prio[id]; });
+}
+function matrizHtml() {
+  const nomeD = ['', '🟢 Fácil', '🟡 Média', '🔴 Difícil'];
+  return `<div class="gridw" style="max-height:none"><table class="matriz"><thead><tr><th></th><th colspan="3">Peso na prova</th></tr><tr><th>Dificuldade</th><th>Baixo (1)</th><th>Médio (2)</th><th>Alto (3)</th></tr></thead><tbody>${[3, 2, 1].map(dif => `<tr><th>${nomeD[dif]} (${dif})</th>${[1, 2, 3].map(pe => { const v = dif * pe; return `<td class="${tier(v)}"><b>${v}</b><small>${TIERN[tier(v)]}</small></td>`; }).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+function r6() {
+  const p = S.perfil, dois = Number(p.dias) === 2, feitas = S.disc.filter(d => S.prio[d.id] && S.prio[d.id].d).length;
+  const vest = ['enem', 'psc', 'sis'].includes(p.foco);
+  const interesse = vest ? `<div class="card"><h2>Qual é a sua área de interesse?</h2><p class="hint">Ela ajuda a definir o "peso na prova". Quem busca Medicina precisa de mais Biologia e Química; quem busca Direito, de mais Português, História e Redação. É só uma sugestão: você ajusta cada matéria abaixo.</p><div class="opts">${AREAS.map(a => `<button class="opt ${p.interesse === a.id ? 'on' : ''}" data-act="interesse" data-v="${a.id}"><b>${a.t}</b><small>${a.ex}</small></button>`).join('')}</div><button class="btn sm" data-act="sugerirPesos" style="margin-top:10px">Sugerir pesos pela minha área</button></div>`
+    : p.foco === 'macro' ? `<div class="callout info"><b>Área do curso já considerada</b>Os pesos sugeridos já levam em conta as disciplinas do Dia 2 da sua área.</div>`
+    : `<div class="callout info"><b>No concurso, o peso vem do edital</b>Considere o número de questões de cada matéria e o que o cargo exige. Se você informou as questões na fase 1, os pesos já vêm sugeridos.</div>`;
+  return hdr(3, 'Fase 6 · Radar de Prioridades', 'Classifique suas matérias', 'Duas perguntas por matéria. A resposta define quanto tempo cada uma recebe no seu cronograma.')
+    + `<div class="card"><h2>Como classificar</h2>
+    <div class="exp2"><div class="ex"><div class="exn">1</div><div><b>Dificuldade agora</b><p>O quanto você sente dificuldade <b>hoje</b> nessa matéria. Não é um julgamento sobre você: mostra onde você está agora, e muda conforme você estuda.</p><p class="small">🟢 Fácil: eu domino &nbsp;·&nbsp; 🟡 Média: preciso de atenção &nbsp;·&nbsp; 🔴 Difícil: eu travo ou evito</p></div></div>
+    <div class="ex"><div class="exn">2</div><div><b>Peso na prova</b><p>O quanto a matéria <b>vale para o seu objetivo</b>. Soma dois fatores: o quanto ela vale na prova (número de questões, notas mínimas) e a sua <b>área de interesse</b> (a que mais conta para o curso ou cargo que você busca).</p><p class="small">⬇ Baixo: poucas questões ou pouco ligada ao meu objetivo &nbsp;·&nbsp; ⬆ Alto: muitas questões ou central para o meu objetivo</p></div></div></div>
+    <h3>Prioridade = Dificuldade × Peso</h3>${matrizHtml()}
+    <ul class="small" style="margin:10px 0 0;padding-left:18px"><li><b>Difícil e peso alto:</b> vira foco e vai para o seu horário de mais energia.</li><li><b>Difícil e peso baixo:</b> estude, mas não deixe tomar o tempo das matérias que mais valem.</li><li><b>Fácil e peso alto:</b> mantenha com revisões rápidas para não perder o que já domina.</li></ul></div>
+    ${interesse}
+    <div class="callout info"><b>Sem julgamento</b>Ninguém vai avaliar a sua classificação. Quanto mais sincera a resposta, melhor o cronograma.</div>
+    <h2 style="margin:18px 0 10px">${feitas} de ${S.disc.length} matérias classificadas</h2>${S.disc.map(d => {
+      const q = S.prio[d.id], sc = prioScore(d.id);
+      return `<div class="pcard ${q.d && q.p ? 'ok' : ''}"><div class="ph"><b>${esc(d.nome)}</b>${dois ? `<span class="badge dia">${dpLabel(d.dp)}</span>` : ''}</div>
+      <div class="pq"><div class="pt"><span class="n">1</span><div><b>Dificuldade agora</b><small>Como você se sente hoje nessa matéria?</small></div></div><div class="pb3">${[['🟢', 'Fácil', 'Eu domino'], ['🟡', 'Média', 'Preciso de atenção'], ['🔴', 'Difícil', 'Eu travo ou evito']].map(([e, l, x], i) => `<button class="pbtn ${q.d === i + 1 ? 'on d' + (i + 1) : ''}" data-act="setd" data-id="${d.id}" data-v="${i + 1}" aria-pressed="${q.d === i + 1}"><span class="e">${e}</span><b>${l}</b><small>${x}</small></button>`).join('')}</div></div>
+      <div class="pq"><div class="pt"><span class="n">2</span><div><b>Peso na prova</b><small>Quanto vale para o seu objetivo?</small></div></div><div class="pb3">${[['▁', 'Baixo', 'Poucas questões ou pouco ligada ao objetivo'], ['▄', 'Médio', 'Importância média'], ['█', 'Alto', 'Muitas questões ou central ao objetivo']].map(([e, l, x], i) => `<button class="pbtn ${q.p === i + 1 ? 'on w' + (i + 1) : ''}" data-act="setp" data-id="${d.id}" data-v="${i + 1}" aria-pressed="${q.p === i + 1}"><span class="e">${e}</span><b>${l}</b><small>${x}</small></button>`).join('')}</div></div>
+      <div class="pres">${q.d ? `Prioridade: <b>${q.d} × ${q.p} = ${sc}</b> <span class="badge ${tier(sc)}">${TIERN[tier(sc)]}</span>` : 'Marque a dificuldade para ver a prioridade.'}</div></div>`;
+    }).join('')}${nav()}`;
+}
+function v6() { return S.disc.every(d => S.prio[d.id] && S.prio[d.id].d) ? null : 'Classifique a dificuldade de todas as matérias.'; }
+
+/* ================= FASE 7 · ROTINA REAL ================= */
+function applyPreset(id) {
+  const D = [[], [], [], [], [], [], []], wk = [0, 1, 2, 3, 4];
+  const add = (days, tipo, i, f) => days.forEach(d => D[d].push({ tipo, ini: i, fim: f }));
+  if (id === 'manha') { add(wk, CM_T[0], '07:00', '12:30'); add(wk, CM_T[3], '12:30', '13:30'); }
+  if (id === 'integral') { add(wk, CM_T[0], '07:00', '16:30'); add(wk, CM_T[2], '16:30', '17:00'); }
+  if (id === 'noite') add(wk, CM_T[0], '18:30', '22:00');
+  if (id === 'trabalho') { add(wk, CM_T[2], '07:00', '08:00'); add(wk, CM_T[1], '08:00', '17:00'); add(wk, CM_T[2], '17:00', '18:00'); }
+  if (id !== 'zero') for (let d = 0; d < 7; d++) [['12:00', '13:00'], ['19:00', '19:45']].forEach(([a, b]) => { if (!D[d].some(c => tm(c.ini) < tm(b) && tm(c.fim) > tm(a))) D[d].push({ tipo: CM_T[3], ini: a, fim: b }); });
+  S.disp.days = D; S.disp.preset = id; S.disp.horas = 0; S.cron.gerado = false;
+}
+const presetDaSituacao = { integral: 'estudo', escola: 'manha', trabalho: 'trabalho', misto: 'trabalho' };
+function r7() {
+  const d = S.disp, fx = fixedMaps(), cap = capacityHours();
+  d.horas = clamp(d.horas || Math.floor(cap * .85), 1, Math.max(1, Math.floor(cap)));
+  const free = [0, 1, 2, 3, 4, 5, 6].map(i => freeCount(i, fx) * .5);
+  const mxf = Math.max(1, ...free), sono = sonoPlanejado();
+  return hdr(3, 'Fase 7 · Rotina Real', 'Quando você realmente pode estudar?', 'Informe o que é fixo na sua semana. O restante vira janela de estudo, e eu cruzo com o seu mapa de energia.')
+    + `<div class="card"><h2>Ponto de partida</h2><select id="preset" data-act-change="preset" aria-label="Modelo de rotina">${[['', 'Escolha um modelo...'], ['manha', 'Escola ou faculdade de manhã'], ['integral', 'Escola em tempo integral'], ['noite', 'Aulas à noite'], ['trabalho', 'Trabalho em horário comercial'], ['estudo', 'Só estudo (apenas refeições)'], ['zero', 'Começar do zero']].map(([v, l]) => `<option value="${v}" ${d.preset === v ? 'selected' : ''}>${l}</option>`).join('')}</select>
+    <div class="rr2"><div><label class="lab" for="ac">Acordo às</label><input type="time" id="ac" data-bind="disp.acordar" data-live="rotinaLive" value="${d.acordar}"></div><div><label class="lab" for="dm">Vou dormir às</label><input type="time" id="dm" data-bind="disp.dormir" data-live="rotinaLive" value="${d.dormir}"></div></div>
+    <div id="sonoBox" class="callout ${sono >= alvoSono() ? 'ok' : 'warn'}"><b id="sonoT">Sono planejado: ${hh(sono)} h</b><span id="sonoD">${sono >= alvoSono() ? 'Dentro da meta.' : `Abaixo da meta de ${alvoSono()} h. Considere deitar mais cedo.`}</span></div>
+    <p class="small mut">Reservo 1 h depois de acordar e 30 min antes de dormir para a sua rotina pessoal.</p></div>
+    <div class="card"><h2>Compromissos fixos</h2><p class="hint">Aulas, trabalho, trajeto, refeições. Abra cada dia para ajustar.</p>
+    <div class="row nofill" style="margin-bottom:10px"><button class="btn sm" data-act="copiaSeg">Copiar segunda para terça a sexta</button></div>
+    ${DAYS.map((nm, di) => `<details class="dayd" data-day="${di}" ${S.ui.open[di] ? 'open' : ''}><summary><span>${nm}</span><span class="small mut" id="fh${di}">${hh(free[di])} h livres</span></summary><div class="in">
+      ${d.days[di].map((c, i) => `<div class="cm"><select data-cm="${di}.${i}.tipo" aria-label="Tipo">${CM_T.map(t => `<option ${c.tipo === t ? 'selected' : ''}>${t}</option>`).join('')}</select><input type="time" data-cm="${di}.${i}.ini" value="${c.ini}" aria-label="Início"><input type="time" data-cm="${di}.${i}.fim" value="${c.fim}" aria-label="Fim"><button class="btn sm ghost" data-act="delCm" data-d="${di}" data-i="${i}" aria-label="Remover compromisso">✕</button></div>`).join('')}
+      <button class="btn sm" data-act="addCm" data-d="${di}">+ Compromisso</button></div></details>`).join('')}</div>
+    <div class="card"><h2>Seu tempo livre por dia</h2><div class="bars" aria-hidden="true">${free.map((h, i) => `<div><i id="bi${i}" style="height:${Math.max(2, h / mxf * 100)}%"></i><span id="bl${i}">${DS[i]}<br>${hh(h)}h</span></div>`).join('')}</div>
+    <div class="rr2"><div><label class="lab" for="fol">Dia de descanso (sem estudar)</label><select id="fol" data-bind="disp.folga" data-num="1" data-re="1">${[[-1, 'Nenhum']].concat(DAYS.map((n, i) => [i, n])).map(([v, l]) => `<option value="${v}" ${Number(d.folga) === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
+    <div><label class="lab" for="tec">Tamanho do bloco de foco</label><select id="tec" data-bind="disp.tecnica" data-re="1"><option value="25/5" ${d.tecnica === '25/5' ? 'selected' : ''}>25 min foco + 5 pausa</option><option value="50/10" ${d.tecnica === '50/10' ? 'selected' : ''}>50 min foco + 10 pausa</option></select></div></div>
+    <label class="lab" for="mxd">Limite de estudo por dia: <b id="mxdv">${hh(d.maxDia)} h</b></label><input type="range" id="mxd" min="1" max="10" step="0.5" value="${d.maxDia}" data-bind="disp.maxDia" data-live="maxUp" aria-label="Limite diário em horas">
+    <div class="callout info"><b id="capv">Capacidade: ${hh(cap)} h por semana</b>Defina quantas horas quer estudar (recomendo deixar uns 15% de folga para imprevistos).</div>
+    <label class="lab" for="hor">Horas de estudo por semana: <b id="horv">${d.horas} h</b></label><input type="range" id="hor" min="1" max="${Math.max(1, Math.floor(cap))}" step="1" value="${d.horas}" data-bind="disp.horas" data-live="horUp" aria-label="Horas por semana"></div>${nav('Gerar meu cronograma')}`;
+}
+function liveRotina() {
+  if (S.step !== 7) return;
+  const fx = fixedMaps(), free = [0, 1, 2, 3, 4, 5, 6].map(i => freeCount(i, fx) * .5), cap = capacityHours(), sono = sonoPlanejado(), mxf = Math.max(1, ...free);
+  free.forEach((h, i) => { const a = $('fh' + i); if (a) a.textContent = hh(h) + ' h livres'; const b = $('bi' + i); if (b) b.style.height = Math.max(2, h / mxf * 100) + '%'; const l = $('bl' + i); if (l) l.innerHTML = DS[i] + '<br>' + hh(h) + 'h'; });
+  const c = $('capv'); if (c) c.textContent = 'Capacidade: ' + hh(cap) + ' h por semana';
+  const sb = $('sonoBox'); if (sb) { sb.className = 'callout ' + (sono >= alvoSono() ? 'ok' : 'warn'); $('sonoT').textContent = 'Sono planejado: ' + hh(sono) + ' h'; $('sonoD').textContent = sono >= alvoSono() ? 'Dentro da meta.' : `Abaixo da meta de ${alvoSono()} h. Considere deitar mais cedo.`; }
+  const h = $('hor'); if (h) { const mx = Math.max(1, Math.floor(cap)); h.max = mx; if (Number(h.value) > mx) { h.value = mx; S.disp.horas = mx; } $('horv').textContent = h.value + ' h'; }
+}
+function v7() {
+  if (!S.disp.preset) return 'Escolha um modelo de rotina para começar.';
+  if (capacityHours() < 2) return 'Você precisa de pelo menos 2 h livres por semana. Revise os compromissos ou o limite diário.';
+  return null;
+}
+
+/* ================= FASE 8 · CRONOGRAMA ================= */
+function gridHtml() {
+  const [s0, s1] = slotRange(), fx = fixedMaps(), fol = Number(S.disp.folga);
+  let h = '<div class="gridw" tabindex="0" aria-label="Grade semanal"><table class="sched"><thead><tr><th></th>' + DS.map(x => `<th>${x}</th>`).join('') + '</tr></thead><tbody>';
+  for (let s = s0; s < s1; s++) {
+    h += `<tr><th scope="row">${s % 2 === 0 ? fm(s * 30) : ''}</th>`;
+    for (let d = 0; d < 7; d++) {
+      const c = S.cron.cells[d + ':' + s], f = fx[d][s];
+      if (f) { h += `<td class="fixed">${fx[d][s - 1] !== f ? esc(CM_SHORT[f] || '') : ''}</td>`; continue; }
+      if (d === fol) { h += `<td class="off">${s === s0 ? 'Folga' : ''}</td>`; continue; }
+      if (c) { const prev = S.cron.cells[d + ':' + (s - 1)], first = !(prev && prev.t === c.t && prev.id === c.id); h += `<td data-act="paint" data-d="${d}" data-s="${s}" style="background:${colOf(c)}" title="${esc(nomeCell(c))}">${first ? esc(c.t === 'rev' ? 'Rev' : c.t === 'q' ? 'Quest' : c.t === 'sim' ? 'Sim' : abbr(nomeCell(c))) : ''}</td>`; continue; }
+      h += `<td class="free" data-act="paint" data-d="${d}" data-s="${s}"></td>`;
+    }
+    h += '</tr>';
+  }
+  return h + '</tbody></table></div>';
+}
+function listHtml() {
+  const cyc = techCyc();
+  return DAYS.map((nm, d) => {
+    const ses = sessionsOf(d), aq = aquecimento(d), tot = ses.reduce((a, x) => a + (x.e - x.s) * .5, 0);
+    if (d === Number(S.disp.folga)) return `<div class="day"><h3>${nm}<span class="small mut">descanso</span></h3><div class="mut">Dia livre de estudo. Descansar também é plano.</div></div>`;
+    return `<div class="day"><h3>${nm}<span class="small mut">${hh(tot)} h</span></h3>${aq.length ? `<div class="small" style="color:var(--violet)">🔁 Aquecimento de 10 min: ${aq.map(a => `${esc(a.nome)} (R+${a.lag})`).join(', ')}</div>` : ''}${ses.length ? ses.map(x => `<div class="sess"><i style="background:${colOf(x.c)}"></i><time>${fm(x.s * 30)}–${fm(x.e * 30)}</time><span>${esc(nomeCell(x.c))} <span class="small mut">· ${x.cyc} ${x.cyc > 1 ? 'ciclos' : 'ciclo'} de ${S.disp.tecnica}</span></span></div>`).join('') : '<div class="mut small">Sem blocos de estudo.</div>'}</div>`;
+  }).join('');
+}
+function r8() {
+  const m = metrics(), sem = semaforo(m), br = S.cron.brush, v = S.cron.view, f = fasePreparo(), dois = Number(S.perfil.dias) === 2;
+  const ic = { ok: '✅', warn: '⚠️', bad: '🛑' };
+  const temSim = m.sim > 0 || f.k === 'reta' || (f.k === 'consolidacao' && dois);
+  return hdr(3, 'Fase 8 · Cronograma Tático', 'Seu cronograma da semana', 'Montei uma proposta com a sua rotina, a sua energia e as suas prioridades. Ajuste como quiser: ele é seu.')
+    + `<div class="stats"><div class="stat"><b>${hh(m.total)} h</b><span>planejadas por semana</span></div><div class="stat"><b>${hh(m.cap)} h</b><span>capacidade</span></div><div class="stat"><b>${S.disc.length}</b><span>matérias</span></div><div class="stat"><b>${S.disp.tecnica}</b><span>ciclo de foco</span></div>${dois ? `<div class="stat"><b>${hh(m.dia[1])} · ${hh(m.dia[2])} h</b><span>Dia 1 · Dia 2 de prova</span></div>` : ''}</div>
+    ${S.cron.aviso ? `<div class="callout warn">${esc(S.cron.aviso)}</div>` : ''}
+    <div class="card"><h2>Semáforo de sustentabilidade</h2><div class="sem">${sem.map(([l, t]) => `<div><span>${ic[l]}</span><span>${esc(t)}</span></div>`).join('')}</div>
+    <details class="imp"><summary>Como o plano foi montado</summary><ol class="small mut"><li>Reservei sono, descanso e compromissos fixos.</li><li>Separei revisão semanal e um bloco de questões com caderno de erros${f.k === 'reta' ? ' (maior, por ser a reta final)' : ''}.</li>${m.sim > 0 ? `<li>Incluí simulado parcial${dois ? ' dos dias de prova' : ''}, para treinar o ritmo da prova${f.k === 'reta' ? ' sem conteúdo novo' : ''}.</li>` : ''}<li>Distribuí o tempo restante pela prioridade de cada matéria (dificuldade × peso), com ao menos 1 bloco por matéria.${dois ? ' Como a prova tem 2 dias, equilibrei as horas entre as disciplinas de cada dia.' : ''}</li><li>Matérias críticas ficaram nos seus horários de maior energia; as de manutenção, nos de menor.</li><li>Espalhei cada matéria em dias diferentes.${S.ferr.includes('espacada') ? ' O "aquecimento" de revisão (R+1, R+3, R+7) aparece na visão em lista.' : ''}</li></ol></details></div>
+    <div class="row nofill noprint"><button class="btn sm ${v === 'grade' ? 'primary' : ''}" data-act="view" data-v="grade">Grade semanal</button><button class="btn sm ${v === 'lista' ? 'primary' : ''}" data-act="view" data-v="lista">Lista por dia</button><button class="btn sm ghost" data-act="recriar">🔄 Recriar</button></div>
+    ${v === 'grade' ? `<div class="hint" style="margin-top:10px">Escolha uma peça e toque nas células livres para pintar. Tocar de novo apaga.</div><div class="pal-wrap noprint">${S.disc.map(d => `<button class="pal ${br === d.id ? 'on' : ''}" style="--c:${colOf({ t: 'd', id: d.id })}" data-act="brush" data-v="${d.id}">${esc(d.nome)}</button>`).join('')}<button class="pal ${br === 'rev' ? 'on' : ''}" style="--c:#b48bff" data-act="brush" data-v="rev">Revisão semanal</button><button class="pal ${br === 'q' ? 'on' : ''}" style="--c:#5ab4ff" data-act="brush" data-v="q">Questões</button>${temSim ? `<button class="pal ${br === 'sim' ? 'on' : ''}" style="--c:#ff9f43" data-act="brush" data-v="sim">Simulado parcial</button>` : ''}<button class="pal ${br === 'erase' ? 'on' : ''}" data-act="brush" data-v="erase">Apagar</button></div>${gridHtml()}` : `<div class="card" style="margin-top:12px">${listHtml()}</div>`}
+    <div class="card" style="margin-top:14px"><b>Baixar o cronograma</b><p class="small mut">Leve para a parede, a agenda ou o celular. Funciona sem internet.</p>${dlRow()}</div>
+    ${nav('Testar o plano')}`;
+}
+const dlRow = () => `<div class="row noprint"><button class="btn good" data-act="pdf">⬇ Cronograma em PDF</button><button class="btn good" data-act="png1">⬇ Grade em imagem (PNG)</button><button class="btn good" data-act="png2">⬇ Guia por dia em imagem (PNG)</button></div>`;
+const v8 = () => (metrics().total < 1 ? 'Seu cronograma está vazio. Toque em Recriar.' : null);
+
+/* ================= FASE 9 · TESTE DE ESTRESSE ================= */
+function checks() {
+  const m = metrics(), L = []; const T = S.energia.turnos, mx = Math.max(T.manha, T.tarde, T.noite), mn = Math.min(T.manha, T.tarde, T.noite);
+  L.push([sonoPlanejado() >= alvoSono(), 'Sono protegido', `${hh(sonoPlanejado())} h planejadas, meta de ${alvoSono()} h.`]);
+  L.push([Number(S.disp.folga) >= 0, 'Dia de descanso semanal', Number(S.disp.folga) >= 0 ? DAYS[S.disp.folga] : 'Defina um dia de descanso na fase 7.']);
+  L.push([m.rev > 0, 'Revisão semanal', m.rev > 0 ? `${hh(m.rev)} h reservadas.` : 'Falta o bloco de revisão semanal.']);
+  L.push([m.qs > 0, 'Questões e caderno de erros', m.qs > 0 ? `${hh(m.qs)} h reservadas.` : 'Falta o bloco de questões.']);
+  const falt = S.disc.filter(d => !(m.per[d.id] > 0)); L.push([!falt.length, 'Todas as matérias aparecem', falt.length ? 'Faltam: ' + falt.map(d => d.nome).join(', ') : 'Todas têm ao menos 1 bloco.']);
+  if (fasePreparo().k === 'reta') L.push([m.sim > 0, 'Simulados parciais na reta final', m.sim > 0 ? `${hh(m.sim)} h reservadas.` : 'Inclua ao menos um simulado parcial.']);
+  if (Number(S.perfil.dias) === 2) L.push([Math.min(m.dia[1], m.dia[2]) >= .4 * Math.max(m.dia[1], m.dia[2]), 'Equilíbrio entre os dois dias de prova', `Dia 1: ${hh(m.dia[1])} h · Dia 2: ${hh(m.dia[2])} h de disciplinas.`]);
+  L.push([m.total <= m.cap * .9 + .01, 'Reserva para imprevistos', `${hh(m.total)} h de ${hh(m.cap)} h possíveis.`]);
+  let crit = 0, hi = 0; for (const k in S.cron.cells) { const c = S.cron.cells[k]; if (c.t === 'd' && tier(prioScore(c.id)) === 'crit') { crit++; if (energyAt(+k.split(':')[1]) >= mx) hi++; } }
+  L.push([!crit || mx === mn || hi / crit >= .5, 'Matérias críticas nos picos de energia', crit ? `${Math.round(hi / crit * 100)}% dos blocos críticos estão no seu pico.` : 'Nenhuma matéria crítica.']);
+  return L;
+}
+function r9() {
+  const C = checks();
+  return hdr(3, 'Fase 9 · Teste de Estresse', 'Seu plano aguenta a vida real?', 'Primeiro, uma checagem automática. Depois, um exercício que psicólogos chamam de pré-mortem: imaginar que deu errado para se antecipar.')
+    + `<div class="card"><h2>Checagem automática</h2>${C.map(([ok, t, d]) => `<div class="ck"><span>${ok ? '✅' : '⚠️'}</span><div><b>${t}</b><div class="small mut">${esc(d)}</div></div></div>`).join('')}${C.some(c => !c[0]) ? '<div class="callout warn">Há pontos de atenção. Você pode voltar e ajustar, ou seguir sabendo deles.</div>' : '<div class="callout ok">Tudo certo com a estrutura do seu plano.</div>'}</div>
+    <div class="card"><h2>Pré-mortem</h2><p>Imagine que daqui a 3 semanas você abandonou este plano. <b>O que aconteceu?</b></p><p class="hint">Dê detalhes: o que atrapalhou, em que horário, com quem. Isso alimenta o seu plano de contingência.</p>${ta('pre.texto', 5, 'Ex.: cheguei do trabalho com cansaço, peguei o celular e não voltei mais', S.pre.texto, 't-pre')}</div>${nav('Montar contingência')}`;
+}
+const v9 = () => (wc(S.pre.texto) < 5 ? 'Escreva ao menos 5 palavras no pré-mortem.' : null);
+
+/* ================= FASE 10 · CONTINGÊNCIA ================= */
+function initCont() {
+  if (S.cont.ids) return;
+  const ord = OB.map((o, i) => ({ o, i, v: S.raio.obst[o.id] || 0 })).sort((a, b) => b.v - a.v || a.i - b.i);
+  const ids = ord.slice(0, 3).map(x => x.o.id);
+  const extra = OB.find(o => !ids.includes(o.id) && o.kw.test(S.pre.texto || ''));
+  if (extra) ids.push(extra.id);
+  S.cont.ids = ids;
+}
+function ccHtml(id, edit) {
+  const o = OBMAP[id], se = S.cont.se[id] || o.se;
+  return `<div class="cc"><h3>${o.ic} ${o.nome}</h3><p class="small mut"><b>Sinal de alerta:</b> ${o.sinal}</p><b>Estratégias</b><ul>${o.est.map(e => `<li>${e}</li>`).join('')}</ul>
+  <b>Meu plano Se-Então</b>${edit ? `<textarea data-bind="cont.se.${id}" aria-label="Meu Se-Então para ${o.nome}">${esc(se)}</textarea>` : `<p>${esc(se)}</p>`}
+  <b>Protocolo SOS de 5 minutos</b><ol>${o.sos.map(e => `<li>${e}</li>`).join('')}</ol><p><b>No cronograma:</b> ${o.modo}</p>${edit && S.cont.ids.length > 1 ? `<button class="btn sm ghost noprint" data-act="contDel" data-v="${id}">Remover este chefão</button>` : ''}</div>`;
+}
+const traf = () => `<div class="traf"><div class="g"><b>🟢 Verde</b><p class="small">Dia normal: cumpra o plano completo.</p></div><div class="y"><b>🟡 Amarelo</b><p class="small">Dia puxado ou energia baixa: faça 50%. Mantenha as matérias críticas e o aquecimento; pule as de manutenção.</p></div><div class="r"><b>🔴 Vermelho</b><p class="small">Imprevisto, doença ou crise: dia mínimo viável, com 1 bloco de 25 min e 10 min de revisão. Descansar também conta como plano.</p></div></div>`;
+function provaHtml() {
+  const p = S.perfil; if (p.semData || !p.data1) return '';
+  const dois = Number(p.dias) === 2 && p.data2, info = DIAINFO[p.foco];
+  const dd = iso => { const n = diasAte(iso); return n < 0 ? 'já passou' : n === 0 ? 'hoje' : n === 1 ? 'amanhã' : `em ${n} dias`; };
+  return `<div class="card"><h2>Plano para os dias de prova</h2>
+  <p><b>${dois ? 'Dia 1' : 'Prova'}:</b> ${fmtData(p.data1)} (${dd(p.data1)})${dois ? `<br><b>Dia 2:</b> ${fmtData(p.data2)} (${dd(p.data2)})` : ''}</p>
+  ${info ? `<ul>${info.map(x => `<li>${x}</li>`).join('')}</ul>` : ''}
+  <h3>Na semana da prova</h3><ul><li>Nada de conteúdo novo: caderno de erros, resumos e questões já feitas.</li><li>Estude no mesmo horário em que a prova acontece, para o corpo se acostumar.</li><li>Na véspera, deixe documento, material e trajeto resolvidos.</li></ul>
+  ${dois ? `<h3>Entre os dois dias</h3><ul><li>Descanso ativo: caminhar, comer bem e dormir.</li><li>Revisão leve (30 a 60 min) só do que cai no Dia 2. Sem conteúdo novo.</li><li>Evite comparar respostas do Dia 1 com outras pessoas: isso gera ansiedade e não muda a nota.</li></ul>` : ''}
+  <h3>No dia</h3><ul><li>Refeição leve, água e chegada com folga.</li><li>Comece pelas questões em que você tem mais segurança e controle o tempo por bloco.</li>${p.foco === 'enem' ? '<li>Os horários do ENEM seguem o horário de Brasília: em Manaus, é uma hora a menos. Confira no cartão de confirmação.</li>' : ''}</ul></div>`;
+}
+function r10() {
+  initCont();
+  const rest = OB.filter(o => !S.cont.ids.includes(o.id));
+  return hdr(3, 'Fase 10 · Plano de Contingência', 'Seus chefões e como enfrentá-los', 'Com base no seu termômetro e no pré-mortem, estes são os obstáculos mais prováveis. Cada cartão traz estratégias, o seu Se-Então e um protocolo de emergência.')
+    + `<div class="callout info"><b>Como usar</b>Edite o Se-Então com as suas palavras. Um plano que soa como você é mais fácil de seguir.</div>${S.cont.ids.map(id => ccHtml(id, true)).join('')}
+    ${S.cont.ids.length < 5 && rest.length ? `<div class="card noprint"><b>Adicionar outro chefão</b><div class="tags" style="margin-top:8px">${rest.map(o => `<button class="sug" data-act="contAdd" data-v="${o.id}">+ ${o.nome}</button>`).join('')}</div></div>` : ''}
+    ${provaHtml()}<div class="card"><h2>Semáforo do dia</h2>${traf()}</div>${apoioBox(S.alerta || alertaAtivo())}${nav('Definir minha meta')}`;
+}
+
+/* ================= FASE 11 · META ================= */
+function metaFrase() {
+  const m = S.meta; if (!m.acao) return '';
+  return `Vou ${m.acao.trim().replace(/[.]+$/, '')}${m.freq ? ', ' + m.freq.trim() : ''}${m.semanas ? ', por ' + m.semanas + ' ' + (Number(m.semanas) === 1 ? 'semana' : 'semanas') : ''}${m.resultado ? ', para ' + m.resultado.trim().replace(/[.]+$/, '') : ''}.`;
+}
+function r11() {
+  const m = S.meta;
+  return hdr(3, 'Fase 11 · Meta SMART e Compromisso', 'Transforme o plano em compromisso', 'Uma meta específica, mensurável, alcançável, relevante e com prazo. Depois, o primeiro passo para as próximas 24 horas.')
+    + `<div class="card"><div class="callout info"><b>Exemplo ruim:</b> "Vou estudar mais".<br><b>Exemplo SMART:</b> "Vou resolver 20 questões de Matemática, às terças e quintas às 19h30, por 4 semanas, para chegar a 70% de acertos no próximo simulado."</div>
+    <label class="lab" for="m-a">O que vou fazer?</label><input type="text" id="m-a" data-bind="meta.acao" data-live="metaPrev" value="${esc(m.acao)}" placeholder="Ex.: resolver 20 questões de Matemática">
+    <div class="rr2"><div><label class="lab" for="m-f">Quando e com que frequência?</label><input type="text" id="m-f" data-bind="meta.freq" data-live="metaPrev" value="${esc(m.freq)}" placeholder="Ex.: às terças e quintas, às 19h30"></div><div><label class="lab" for="m-s">Por quantas semanas?</label><input type="number" id="m-s" min="1" max="52" data-bind="meta.semanas" data-live="metaPrev" value="${esc(m.semanas)}"></div></div>
+    <label class="lab" for="m-r">Que resultado espero?</label><input type="text" id="m-r" data-bind="meta.resultado" data-live="metaPrev" value="${esc(m.resultado)}" placeholder="Ex.: chegar a 70% de acertos no simulado">
+    <div class="callout ok"><b>Sua meta</b><span id="mprev">${esc(metaFrase()) || 'Preencha os campos acima.'}</span></div></div>
+    <div class="card"><label class="lab" for="m-p">Por que essa meta importa para você?</label><div class="hint">Conecte com o futuro que você quer: curso, carreira, estabilidade, autonomia.</div>${ta('meta.porque', 5, 'Escreva com as suas palavras', m.porque, 'm-p')}
+    <label class="lab" for="m-1">Meu primeiro passo nas próximas 24 horas</label><input type="text" id="m-1" data-bind="meta.passo" value="${esc(m.passo)}" placeholder="Ex.: separar o material e fazer o primeiro bloco amanhã depois do jantar">
+    <label class="lab">Quando vou fazer esse primeiro passo? (opcional)</label><div class="opts tight">${[['hoje', 'Hoje'], ['amanha', 'Amanhã'], ['', 'Sem horário']].map(([v, l]) => `<button class="opt ${m.passoDia === v ? 'on' : ''}" data-act="passoDia" data-v="${v}"><b>${l}</b></button>`).join('')}</div>
+    ${m.passoDia ? `<label class="lab" for="m-h">Horário</label><input type="time" id="m-h" data-bind="meta.passoHora" value="${esc(m.passoHora)}">` : ''}
+    <label class="lab">Quando vou rever este plano?</label><div class="opts tight">${[3, 7, 14].map(n => `<button class="opt ${Number(m.revisaoDias) === n ? 'on' : ''}" data-act="revDias" data-v="${n}"><b>Em ${n} dias</b><small>${fmtData(addDias(n))}</small></button>`).join('')}</div></div>${nav('Finalizar 🎉')}`;
+}
+function v11() {
+  const m = S.meta;
+  if (wc(m.acao) < 3) return 'Descreva o que vai fazer (ao menos 3 palavras).';
+  if ((m.freq || '').trim().length < 3) return 'Informe quando e com que frequência.';
+  if (!(Number(m.semanas) >= 1)) return 'Informe por quantas semanas.';
+  if (wc(m.resultado) < 3) return 'Descreva o resultado esperado.';
+  if (wc(m.porque) < 5) return 'Escreva ao menos 5 palavras no "por quê".';
+  if (wc(m.passo) < 3) return 'Descreva o seu primeiro passo.';
+  return null;
+}
+
+/* ================= FINAL ================= */
+const BADGES = { 0: ['🧭', 'Entrada registrada'], 3: ['🔍', 'Raio-X feito'], 5: ['🧠', 'Mente afiada'], 6: ['🎯', 'Estrategista'], 8: ['📅', 'Semana desenhada'], 10: ['🛡', 'Chefões enfrentados'], 11: ['🤝', 'Compromisso firmado'] };
+function rFinal() {
+  const m = metrics(), p = S.perfil, f = fasePreparo(), foco = (FOCOS.find(x => x.id === p.foco) || {}).t;
+  const ordem = [...S.disc].sort((a, b) => prioScore(b.id) - prioScore(a.id));
+  const pend = S.check.wrong && S.check.wrong.length ? S.check.wrong.map(i => QUIZ[i].q) : [];
+  const datas = p.semData || !p.data1 ? 'sem data definida' : (Number(p.dias) === 2 && p.data2 ? `Dia 1 em ${fmtData(p.data1)} e Dia 2 em ${fmtData(p.data2)}` : fmtData(p.data1));
+  return `<div id="report" class="rep"><div class="phase-header"><div class="ph-tag"><span class="tag-ato a3">Missão completa</span></div><h1 tabindex="-1" id="h1">${nome1()}, seu plano está pronto</h1><p>Aqui está o resumo da sua jornada. Baixe o cronograma, imprima ou leve para o calendário. Volte a ele na revisão semanal.</p></div>
+  <div class="card noprint"><h2>Baixar o cronograma</h2><p class="small mut">Salve para se guiar no dia a dia. A imagem e o PDF funcionam sem internet.</p>${dlRow()}</div>
+  <div class="tags" style="margin-bottom:14px">${Object.keys(BADGES).filter(k => S.done[k]).map(k => `<span class="chip">${BADGES[k][0]} ${BADGES[k][1]}</span>`).join('')}<span class="chip">⚡ ${S.xp} XP</span></div>
+  <div class="card"><h2>Perfil</h2><p><b>${esc(p.nome)}</b>, ${esc(p.idade)} anos. Foco: <b>${foco}</b>${p.etapa ? ' · etapa ' + p.etapa : ''}${p.cargo ? ' · ' + esc(p.cargo) : ''}${p.banca ? ' · banca ' + esc(p.banca) : ''}.</p><p><b>Prova:</b> ${esc(datas)}.</p><p class="mut">${esc(f.t)}</p><p class="mut">Rotina: ${esc((SITUACOES.find(x => x.id === p.situacao) || {}).t)} · bloco de foco ${S.disp.tecnica} · ${hh(m.total)} h por semana planejadas.</p></div>
+  <div class="card"><h2>Disciplinas por prioridade</h2>${ordem.map(d => { const sc = prioScore(d.id); return `<div class="sess"><span class="badge ${tier(sc)}" style="min-width:92px;text-align:center">${TIERN[tier(sc)]}</span><span>${esc(d.nome)} <span class="small mut">· ${Number(p.dias) === 2 ? dpLabel(d.dp) + ' · ' : ''}${hh(m.per[d.id] || 0)} h por semana</span></span></div>`; }).join('')}</div>
+  <div class="card"><h2>Cronograma tático</h2>${listHtml()}<p class="small mut">Estude no horário de pico as matérias críticas e use o semáforo do dia quando a semana apertar.</p></div>
+  ${provaHtml()}
+  <h2>Plano de contingência</h2>${S.cont.ids.map(id => ccHtml(id, false)).join('')}<div class="card"><h2>Semáforo do dia</h2>${traf()}</div>${apoioBox(false)}
+  <div class="card"><h2>Meta SMART</h2><p>${esc(metaFrase())}</p><p><b>Por que importa:</b> ${esc(S.meta.porque)}</p><p><b>Primeiro passo:</b> ${esc(S.meta.passo)}${S.meta.passoDia ? ' (' + (S.meta.passoDia === 'hoje' ? 'hoje' : 'amanhã') + ' às ' + esc(S.meta.passoHora) + ')' : ''}</p><p><b>Revisão do plano:</b> ${esc(fmtData(addDias(Number(S.meta.revisaoDias) || 7)))}</p>${S.ferr.includes('habito') ? `<p><b>Meu circuito:</b> gatilho "${esc(S.habito.gatilho)}", recompensa "${esc(S.habito.recompensa)}".</p>` : ''}${S.ferr.length ? `<p><b>Ferramentas no plano:</b> ${S.ferr.map(i => FER.find(x => x.id === i).t).join(', ')}.</p>` : ''}${pend.length ? `<p class="small mut"><b>Pontos de atenção do checkpoint:</b> ${pend.map(esc).join(' · ')}</p>` : ''}</div></div>
+  <div class="card noprint"><h2>Mais formas de levar</h2><div class="row"><button class="btn" data-act="print">🖨 Relatório completo (imprimir)</button><button class="btn" data-act="xlsx">📊 Planilha .xlsx</button><button class="btn" data-act="ics">📅 Calendário .ics</button></div>
+  <details class="imp" style="margin-top:12px"><summary>Código de retomada</summary><textarea readonly>${esc(codigo())}</textarea></details></div>
+  <div class="nav noprint"><button class="btn ghost" data-act="prev">← Voltar</button><button class="btn ghost" data-act="reset">Recomeçar do zero</button></div>`;
+}
+
+/* ================= FLUXO ================= */
+const STEPS = [
+  { r: r0, v: v0, xp: 40 }, { r: r1, v: v1, xp: 50 }, { r: r2, v: v2, xp: 40 }, { r: r3, v: v3, xp: 80 },
+  { r: r4, v: v4, xp: 90 }, { r: r5, v: v5, xp: 90 }, { r: r6, v: v6, xp: 70 }, { r: r7, v: v7, xp: 70 },
+  { r: r8, v: v8, xp: 100 }, { r: r9, v: v9, xp: 70 }, { r: r10, v: null, xp: 100 }, { r: r11, v: v11, xp: 120 }, { r: rFinal, v: null, xp: 0 }
+];
+const LAST = 11;
+function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 3200); }
+function confetti() { const cs = ['#3de6c8', '#5ab4ff', '#b2eb5b', '#ffcc55', '#b48bff', '#ff6b6b']; for (let i = 0; i < 46; i++) { const e = document.createElement('i'); e.className = 'confetti'; e.style.left = Math.random() * 100 + 'vw'; e.style.background = cs[i % 6]; e.style.animationDelay = Math.random() * .8 + 's'; document.body.appendChild(e); setTimeout(() => e.remove(), 3600); } }
+function go(n) {
+  S.step = n;
+  if (n === 1) ensureDisc();
+  if (n === 5) ensureQuiz();
+  if (n === 6) ensurePrio();
+  if (n === 7 && !S.disp.preset) applyPreset(presetDaSituacao[S.perfil.situacao] || 'estudo');
+  if (n === 8) { if (!S.cron.gerado) gerar(); }
+  if (n === 10) initCont();
+  save(); render(false);
+}
+function after(keep) {
+  $('xp').textContent = '⚡ ' + S.xp + ' XP';
+  const on = S.step > 0 && S.step <= LAST + 1;
+  $('progw').classList.toggle('on', on);
+  if (on) { const pct = Math.min(100, Math.round(S.step / (LAST + 1) * 100)); $('bar').style.width = pct + '%'; $('progl').textContent = S.step <= LAST ? `Fase ${S.step} de ${LAST}` : 'Missão completa'; $('progt').textContent = pct + '%'; }
+  if (!keep) { const h = $('h1'); if (h) h.focus({ preventScroll: true }); }
+}
+function render(keep) {
+  const y = window.scrollY, g = document.querySelector('.gridw'), gs = g ? [g.scrollTop, g.scrollLeft] : null;
+  $('stage').innerHTML = STEPS[S.step].r(); after(keep);
+  if (keep) { window.scrollTo(0, y); const g2 = document.querySelector('.gridw'); if (g2 && gs) { g2.scrollTop = gs[0]; g2.scrollLeft = gs[1]; } } else window.scrollTo(0, 0);
+}
+
+
+/* ================= IMAGEM E PDF DO CRONOGRAMA (sem internet) ================= */
+const CF = '"DM Sans", system-ui, "Segoe UI", Roboto, Arial, sans-serif', INK = '#10202b';
+function mkCanvas(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.textBaseline = 'middle'; return [c, x]; }
+function fitTxt(x, t, mw) { if (x.measureText(t).width <= mw) return t; while (t.length > 1 && x.measureText(t + '…').width > mw) t = t.slice(0, -1); return t + '…'; }
+function wrapTxt(x, t, mw, maxL) {
+  const L = []; let cur = '';
+  String(t).split(' ').forEach(w => { const tt = cur ? cur + ' ' + w : w; if (x.measureText(tt).width > mw && cur) { L.push(cur); cur = w; } else cur = tt; });
+  if (cur) L.push(cur); if (L.length > maxL) { L.length = maxL; L[maxL - 1] = fitTxt(x, L[maxL - 1] + '…', mw); } return L;
+}
+function rrect(x, a, b, w, h, r) { x.beginPath(); if (x.roundRect) x.roundRect(a, b, w, h, r); else x.rect(a, b, w, h); }
+function subTitulo() {
+  const p = S.perfil, m = metrics(), foco = (FOCOS.find(f => f.id === p.foco) || {}).t;
+  const dt = p.semData || !p.data1 ? '' : (Number(p.dias) === 2 && p.data2 ? ` · prova: ${fmtData(p.data1)} e ${fmtData(p.data2)}` : ` · prova: ${fmtData(p.data1)}`);
+  return `${foco} · ${hh(m.total)} h por semana · blocos ${S.disp.tecnica}${dt}`;
+}
+function headBand(x, W, titulo) {
+  x.fillStyle = '#0b2a3a'; x.fillRect(0, 0, W, 124); x.fillStyle = '#3de6c8'; x.fillRect(0, 124, W, 6); x.textAlign = 'left';
+  x.fillStyle = '#fff'; x.font = `800 46px ${CF}`; x.fillText(fitTxt(x, titulo, W - 112), 56, 50);
+  x.font = `400 23px ${CF}`; x.fillStyle = '#bfe3ef'; x.fillText(fitTxt(x, subTitulo(), W - 112), 56, 94);
+}
+function paintGrade() {
+  const W = 2000, H = 1414, [c, x] = mkCanvas(W, H), p = S.perfil, m = metrics();
+  headBand(x, W, `Cronograma semanal · ${p.nome}`);
+  const items = S.disc.map(d => [colOf({ t: 'd', id: d.id }), d.nome]).concat([['#b48bff', 'Revisão semanal'], ['#5ab4ff', 'Questões e caderno de erros']]); if (m.sim > 0) items.push(['#ff9f43', 'Simulado parcial']);
+  x.font = `600 20px ${CF}`; x.textAlign = 'left'; let lx = 56, ly = 170;
+  items.forEach(([col, t]) => { const w = x.measureText(t).width + 60; if (lx + w > W - 56) { lx = 56; ly += 36; } x.fillStyle = col; rrect(x, lx, ly - 11, 22, 22, 5); x.fill(); x.fillStyle = INK; x.fillText(t, lx + 32, ly); lx += w; });
+  const top = ly + 32, [s0, s1] = slotRange(), rows = s1 - s0, left = 56, right = W - 56, tw = 100, cw = (right - left - tw) / 7, hd = 44, bottom = H - 70, rh = Math.min(42, (bottom - top - hd) / rows);
+  x.font = `800 24px ${CF}`; x.textAlign = 'center';
+  DAYS.forEach((n, d) => { x.fillStyle = '#0b2a3a'; x.fillRect(left + tw + d * cw + 2, top, cw - 4, hd - 4); x.fillStyle = '#fff'; x.fillText(n, left + tw + d * cw + cw / 2, top + hd / 2 - 2); });
+  const fx = fixedMaps(), fol = Number(S.disp.folga), fs = Math.max(13, Math.min(19, rh - 9));
+  for (let s = s0; s < s1; s++) {
+    const y = top + hd + (s - s0) * rh;
+    if (s % 2 === 0) { x.fillStyle = '#5b6b76'; x.font = `600 ${fs}px ${CF}`; x.textAlign = 'right'; x.fillText(fm(s * 30), left + tw - 12, y + rh / 2); }
+    for (let d = 0; d < 7; d++) {
+      const cx = left + tw + d * cw + 2, cwid = cw - 4, cell = S.cron.cells[d + ':' + s], f = fx[d][s];
+      let fill = '#f8fafb', txt = '', col = INK;
+      if (f) { fill = '#e4eaee'; col = '#52626d'; if (fx[d][s - 1] !== f) txt = CM_SHORT[f] || ''; }
+      else if (d === fol) { fill = '#efe9ff'; col = '#6a3fc0'; if (s === s0) txt = 'Folga'; }
+      else if (cell) { fill = colOf(cell); const pv = S.cron.cells[d + ':' + (s - 1)]; if (!(pv && pv.t === cell.t && pv.id === cell.id)) txt = nomeCell(cell); }
+      x.fillStyle = fill; x.fillRect(cx, y + 1, cwid, rh - 1);
+      if (!cell && !f && d !== fol) { x.strokeStyle = '#e1e8ed'; x.lineWidth = 1; x.strokeRect(cx + .5, y + 1.5, cwid - 1, rh - 2); }
+      if (txt) { x.fillStyle = col; x.font = `${cell ? 700 : 500} ${fs}px ${CF}`; x.textAlign = 'left'; x.fillText(fitTxt(x, txt, cwid - 14), cx + 8, y + rh / 2 + 1); }
+    }
+  }
+  x.fillStyle = '#52626d'; x.font = `500 20px ${CF}`; x.textAlign = 'left';
+  x.fillText(fitTxt(x, `Dia ruim? Faça o dia mínimo viável: 1 bloco de 25 min + 10 min de revisão. · Meta de sono: ${alvoSono()} h · Feito na Rotina Neural`, W - 112), 56, H - 34);
+  return c;
+}
+function paintLista() {
+  const W = 2000, H = 1414, [c, x] = mkCanvas(W, H), p = S.perfil;
+  headBand(x, W, `Guia da semana · ${p.nome}`);
+  const left = 56, cw = (W - 112) / 7, top = 160; let maxY = top + 120;
+  DAYS.forEach((nm, d) => {
+    const cx = left + d * cw + 4, w = cw - 8, ses = sessionsOf(d), aq = aquecimento(d), tot = ses.reduce((a, q) => a + (q.e - q.s) * .5, 0);
+    x.fillStyle = '#0b2a3a'; x.fillRect(cx, top, w, 52); x.fillStyle = '#fff'; x.font = `800 24px ${CF}`; x.textAlign = 'left'; x.fillText(nm, cx + 14, top + 26);
+    x.font = `500 18px ${CF}`; x.textAlign = 'right'; x.fillText(d === Number(S.disp.folga) ? 'descanso' : hh(tot) + ' h', cx + w - 12, top + 26);
+    let y = top + 64;
+    if (d === Number(S.disp.folga)) { x.fillStyle = '#efe9ff'; rrect(x, cx, y, w, 90, 10); x.fill(); x.fillStyle = '#6a3fc0'; x.font = `600 19px ${CF}`; x.textAlign = 'left'; wrapTxt(x, 'Dia livre de estudo. Descansar também é plano.', w - 24, 3).forEach((l, i) => x.fillText(l, cx + 12, y + 24 + i * 24)); return; }
+    if (aq.length) { x.fillStyle = '#efe9ff'; rrect(x, cx, y, w, 30 + aq.length * 23, 10); x.fill(); x.fillStyle = '#6a3fc0'; x.font = `700 17px ${CF}`; x.textAlign = 'left'; x.fillText('🔁 Aquecimento 10 min', cx + 10, y + 18); x.font = `500 16px ${CF}`; aq.forEach((a, i) => x.fillText(fitTxt(x, `${a.nome} (R+${a.lag})`, w - 20), cx + 10, y + 40 + i * 23)); y += 40 + aq.length * 23; }
+    const avail = 1090 - y, ch = Math.min(96, Math.max(60, avail / Math.max(1, ses.length) - 6));
+    ses.forEach(se => {
+      x.fillStyle = '#f3f6f8'; rrect(x, cx, y, w, ch, 10); x.fill(); x.fillStyle = colOf(se.c); x.fillRect(cx, y, 8, ch);
+      x.fillStyle = INK; x.textAlign = 'left'; x.font = `800 19px ${CF}`; x.fillText(`${fm(se.s * 30)}–${fm(se.e * 30)}`, cx + 18, y + 20);
+      x.font = `600 18px ${CF}`; wrapTxt(x, nomeCell(se.c), w - 30, 2).forEach((l, i) => x.fillText(l, cx + 18, y + 44 + i * 22));
+      y += ch + 6;
+    });
+    maxY = Math.max(maxY, y);
+  });
+  const fy = Math.min(1130, maxY + 36), bw = (W - 112 - 40) / 3, boxes = [['#e6f7d9', '#3f7d1f', '🟢 Verde', 'Dia normal: cumpra o plano completo.'], ['#fff3d1', '#9a6b00', '🟡 Amarelo', 'Dia puxado ou energia baixa: faça 50%. Mantenha as matérias críticas e o aquecimento.'], ['#ffe1e1', '#b3261e', '🔴 Vermelho', 'Imprevisto ou crise: dia mínimo viável, 1 bloco de 25 min e 10 min de revisão.']];
+  boxes.forEach(([bg, fg, t, d], i) => { const bx = 56 + i * (bw + 20); x.fillStyle = bg; rrect(x, bx, fy, bw, 130, 14); x.fill(); x.fillStyle = fg; x.font = `800 24px ${CF}`; x.textAlign = 'left'; x.fillText(t, bx + 20, fy + 30); x.fillStyle = INK; x.font = `500 19px ${CF}`; wrapTxt(x, d, bw - 40, 3).forEach((l, k) => x.fillText(l, bx + 20, fy + 62 + k * 25)); });
+  let ty = fy + 168; x.textAlign = 'left';
+  if (S.meta.acao) { x.fillStyle = INK; x.font = `700 21px ${CF}`; x.fillText(fitTxt(x, 'Minha meta: ' + metaFrase(), W - 112), 56, ty); ty += 34; }
+  x.font = `500 19px ${CF}`; x.fillStyle = '#52626d';
+  if (S.meta.passo) { x.fillText(fitTxt(x, 'Primeiro passo: ' + S.meta.passo, W - 112), 56, ty); ty += 34; }
+  x.fillText(fitTxt(x, 'Revisão do plano: ' + fmtData(addDias(Number(S.meta.revisaoDias) || 7)) + '  ·  Quando precisar de apoio emocional, o CVV atende 24 h pelo 188.', W - 112), 56, ty);
+  return c;
+}
+function canvasJpeg(c) { const b = atob(c.toDataURL('image/jpeg', .92).split(',')[1]), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+function pdfBlob(cs) {
+  const enc = new TextEncoder(), chunks = [], offs = []; let len = 0;
+  const push = u => { chunks.push(u); len += u.length; }, T = t => push(enc.encode(t));
+  T('%PDF-1.4\n'); push(new Uint8Array([0x25, 0xE2, 0xE3, 0xCF, 0xD3, 0x0A]));
+  const obj = (id, fn) => { offs[id] = len; T(`${id} 0 obj\n`); fn(); T('\nendobj\n'); };
+  const n = cs.length;
+  obj(1, () => T('<</Type/Catalog/Pages 2 0 R>>'));
+  obj(2, () => T(`<</Type/Pages/Kids[${cs.map((_, i) => `${3 + 3 * i} 0 R`).join(' ')}]/Count ${n}>>`));
+  cs.forEach((c, i) => {
+    const jp = canvasJpeg(c), pid = 3 + 3 * i, cid = pid + 1, iid = pid + 2, st = 'q 842 0 0 595 0 0 cm /Im0 Do Q';
+    obj(pid, () => T(`<</Type/Page/Parent 2 0 R/MediaBox[0 0 842 595]/Resources<</XObject<</Im0 ${iid} 0 R>>>>/Contents ${cid} 0 R>>`));
+    obj(cid, () => T(`<</Length ${st.length}>>\nstream\n${st}\nendstream`));
+    obj(iid, () => { T(`<</Type/XObject/Subtype/Image/Width ${c.width}/Height ${c.height}/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length ${jp.length}>>\nstream\n`); push(jp); T('\nendstream'); });
+  });
+  const total = 3 * n + 3, xr = len; T(`xref\n0 ${total}\n0000000000 65535 f \n`);
+  for (let id = 1; id < total; id++) T(String(offs[id]).padStart(10, '0') + ' 00000 n \n');
+  T(`trailer\n<</Size ${total}/Root 1 0 R>>\nstartxref\n${xr}\n%%EOF`);
+  return new Blob(chunks, { type: 'application/pdf' });
+}
+async function fontsPronto() { try { await document.fonts.load(`700 20px "DM Sans"`); await document.fonts.ready; } catch (e) {} }
+
+/* ================= AÇÕES ================= */
+function invalida() { S.cron.gerado = false; }
+const ACT = {
+  next() { const e = STEPS[S.step].v && STEPS[S.step].v(); if (e) { toast(e); return; } if (!S.done[S.step]) { S.done[S.step] = 1; S.xp += STEPS[S.step].xp; toast('+' + STEPS[S.step].xp + ' XP'); } if (S.step + 1 > LAST) confetti(); go(Math.min(S.step + 1, LAST + 1)); },
+  prev() { go(Math.max(0, S.step - 1)); },
+  foco(el) { const p = S.perfil; p.foco = el.dataset.v; p.etapa = ''; p.lingua = ''; p.areaCurso = ''; p.interesse = ''; p.dias = diasFixos() || Number(p.dias) || 1; if (Number(p.dias) === 1) p.data2 = ''; S.ui.slot = 1; invalida(); save(); render(true); },
+  diasN(el) { const p = S.perfil; p.dias = Number(el.dataset.v); if (p.dias === 1) { p.data2 = ''; S.ui.slot = 1; } invalida(); save(); render(true); },
+  areaCurso(el) { S.perfil.areaCurso = el.dataset.v; S.perfil.interesse = el.dataset.v; save(); render(true); },
+  calNav(el) { const [Y, M] = calMonth().split('-').map(Number), d = new Date(Y, M - 1 + Number(el.dataset.v), 1); S.ui.cal = `${d.getFullYear()}-${pad2(d.getMonth() + 1)}`; save(); render(true); },
+  calSlot(el) { S.ui.slot = Number(el.dataset.v); save(); render(true); },
+  calPick(el) {
+    const p = S.perfil, iso = el.dataset.v, dois = Number(p.dias) === 2, slot = dois ? (Number(S.ui.slot) || 1) : 1;
+    if (slot === 2) { if (p.data1 && iso <= p.data1) { toast('O Dia 2 precisa ser depois do Dia 1.'); return; } p.data2 = iso; }
+    else { p.data1 = iso; p.dataProva = iso; if (dois) { if (p.data2 && p.data2 <= iso) p.data2 = ''; S.ui.slot = 2; } }
+    invalida(); save(); render(true);
+  },
+  calClear() { const p = S.perfil; p.data1 = p.data2 = p.dataProva = ''; S.ui.slot = 1; invalida(); save(); render(true); },
+  oficial() { const p = S.perfil, of = OFICIAL[p.foco]; if (!of) return; p.data1 = p.dataProva = of.d1; p.data2 = Number(p.dias) === 2 ? of.d2 : ''; S.ui.cal = of.d1.slice(0, 7); S.ui.slot = 1; invalida(); save(); render(true); toast('Datas preenchidas. Confira no edital.'); },
+  interesse(el) { S.perfil.interesse = el.dataset.v; save(); render(true); },
+  sugerirPesos() { ensurePrio(); S.disc.forEach(d => { S.prio[d.id].p = pesoSugerido(d); }); invalida(); save(); render(true); toast('Pesos sugeridos. Ajuste o que quiser.'); },
+  revDias(el) { S.meta.revisaoDias = Number(el.dataset.v); save(); render(true); },
+  passoDia(el) { S.meta.passoDia = el.dataset.v; save(); render(true); },
+  async pdf() { await fontsPronto(); dl(pdfBlob([paintGrade(), paintLista()]), 'cronograma_' + slug(S.perfil.nome) + '.pdf'); toast('PDF gerado.'); },
+  async png1() { await fontsPronto(); paintGrade().toBlob(b => dl(b, 'cronograma_grade_' + slug(S.perfil.nome) + '.png')); toast('Imagem gerada.'); },
+  async png2() { await fontsPronto(); paintLista().toBlob(b => dl(b, 'cronograma_guia_' + slug(S.perfil.nome) + '.png')); toast('Imagem gerada.'); },
+  etapa(el) { S.perfil.etapa = el.dataset.v; if (S.perfil.foco === 'sis' && el.dataset.v === '1') S.perfil.lingua = 'Inglês'; save(); render(true); },
+  lingua(el) { S.perfil.lingua = el.dataset.v; save(); render(true); },
+  situ(el) { S.perfil.situacao = el.dataset.v; S.disp.maxDia = (SITUACOES.find(s => s.id === el.dataset.v) || {}).max || 3; S.disp.preset = ''; invalida(); save(); render(true); },
+  importar() { try { const t = $('codeIn').value.trim(); const o = JSON.parse(decodeURIComponent(escape(atob(t)))); if (!o || o.v !== 1) throw 0; S = deepMerge(fresh(), o); save(); toast('Progresso carregado.'); go(S.step); } catch (e) { toast('Código inválido. Confira se copiou tudo.'); } },
+  /* disciplinas */
+  addDisc() { const n = ($('newd').value || '').trim(); if (!n) { toast('Digite o nome da disciplina.'); return; } addD(n, $('newq') ? Number($('newq').value) : 0); save(); render(true); const i = $('newd'); if (i) i.focus(); },
+  sugDisc(el) { addD(el.dataset.v, 0); save(); render(true); },
+  pasteDisc() { const t = $('pasteTa').value; t.split(/[\n;,]+/).map(x => x.trim()).filter(Boolean).forEach(x => addD(x, 0)); save(); render(true); },
+  delDisc(el) { S.disc = S.disc.filter(d => d.id !== el.dataset.id); invalida(); save(); render(true); },
+  resetDisc() { S.discKey = ''; ensureDisc(); save(); render(true); },
+  /* energia */
+  turno(el) { S.energia.turnos[el.dataset.t] = Number(el.dataset.v); invalida(); save(); render(true); },
+  crono(el) { const k = el.dataset.v; S.energia.cronotipo = k; S.energia.turnos = k === 'manha' ? { manha: 4, tarde: 3, noite: 2 } : k === 'tarde' ? { manha: 3, tarde: 4, noite: 3 } : { manha: 2, tarde: 3, noite: 4 }; invalida(); save(); render(true); },
+  curto() { S.curto = !S.curto; save(); render(true); },
+  salvar() { S.ui.showCode = true; save(); render(true); toast('Progresso salvo. Volte quando tiver mais energia.'); },
+  /* raio-x */
+  prat(el) { const i = Number(el.dataset.v), a = S.raio.prat, k = a.indexOf(i); if (k >= 0) a.splice(k, 1); else a.push(i); save(); render(true); },
+  obst(el) { S.raio.obst[el.dataset.id] = Number(el.dataset.v); S.cont.ids = null; save(); render(true); },
+  /* lab */
+  fer(el) { const id = el.dataset.v, a = S.ferr, k = a.indexOf(id); if (k >= 0) a.splice(k, 1); else a.push(id); const on = a.includes(id); el.classList.toggle('good', on); el.textContent = on ? '✓ No meu plano' : 'Quero no meu plano'; el.setAttribute('aria-pressed', on); el.closest('details').classList.toggle('on', on); save(); },
+  /* quiz */
+  qpick(el) { S.check.ans[el.dataset.q] = Number(el.dataset.o); save(); render(true); },
+  qgrade() { if (QUIZ.some((_, i) => S.check.ans[i] === undefined)) { toast('Responda todas as questões.'); return; } const c = S.check; c.wrong = QUIZ.map((_, i) => i).filter(i => c.ans[i] !== 0); c.score = QUIZ.length - c.wrong.length; c.graded = true; c.tries++; save(); render(true); },
+  qretry() { const c = S.check; c.locked = QUIZ.map((_, i) => i).filter(i => !c.wrong.includes(i)); c.wrong.forEach(i => delete c.ans[i]); c.graded = false; save(); render(true); },
+  /* radar */
+  setd(el) { S.prio[el.dataset.id].d = Number(el.dataset.v); invalida(); save(); render(true); },
+  setp(el) { S.prio[el.dataset.id].p = Number(el.dataset.v); invalida(); save(); render(true); },
+  /* rotina */
+  addCm(el) { S.disp.days[+el.dataset.d].push({ tipo: CM_T[4], ini: '14:00', fim: '15:00' }); S.ui.open[+el.dataset.d] = true; invalida(); save(); render(true); },
+  delCm(el) { S.disp.days[+el.dataset.d].splice(+el.dataset.i, 1); invalida(); save(); render(true); },
+  copiaSeg() { for (let d = 1; d < 5; d++) S.disp.days[d] = S.disp.days[0].map(c => ({ ...c })); invalida(); save(); render(true); toast('Segunda copiada para terça a sexta.'); },
+  /* cronograma */
+  view(el) { S.cron.view = el.dataset.v; save(); render(true); },
+  recriar() { gerar(); save(); render(true); toast('Cronograma recriado.'); },
+  brush(el) { S.cron.brush = S.cron.brush === el.dataset.v ? null : el.dataset.v; render(true); },
+  paint(el) {
+    const b = S.cron.brush; if (!b) { toast('Escolha uma peça na paleta antes de pintar.'); return; }
+    const k = el.dataset.d + ':' + el.dataset.s, cur = S.cron.cells[k];
+    if (b === 'erase') delete S.cron.cells[k];
+    else { const cell = b === 'rev' ? { t: 'rev' } : b === 'q' ? { t: 'q' } : b === 'sim' ? { t: 'sim', id: 0 } : { t: 'd', id: b }; if (cur && cur.t === cell.t && cur.id === cell.id) delete S.cron.cells[k]; else S.cron.cells[k] = cell; }
+    save(); render(true);
+  },
+  /* contingência */
+  contAdd(el) { if (S.cont.ids.length < 5) S.cont.ids.push(el.dataset.v); save(); render(true); },
+  contDel(el) { S.cont.ids = S.cont.ids.filter(i => i !== el.dataset.v); save(); render(true); },
+  /* exportação */
+  print() { window.print(); },
+  xlsx() { try { dl(xlsxBlob(sheetsData()), 'rotina_neural_' + slug(S.perfil.nome) + '.xlsx'); } catch (e) { toast('Não consegui gerar a planilha.'); } },
+  ics() { dl(new Blob([icsText()], { type: 'text/calendar;charset=utf-8' }), 'cronograma_' + slug(S.perfil.nome) + '.ics'); toast('Abra o arquivo para importar no seu calendário.'); },
+  reset() { if (confirm('Apagar tudo e recomeçar?')) { try { localStorage.removeItem(KEY); } catch (e) {} S = fresh(); go(0); } }
+};
+function addD(nome, q) { if (!nome || S.disc.some(d => d.nome.toLowerCase() === nome.toLowerCase())) return; S.disc.push({ id: 'd' + (++S.nid), nome, w: 2, q: q > 0 ? q : null, dp: Number(S.perfil.dias) === 2 ? [1, 2] : [1] }); invalida(); }
+const slug = s => (s || 'estudante').trim().replace(/\s+/g, '_').replace(/[^\w-]/g, '') || 'estudante';
+function dl(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 800); }
+
+const LIVE = {
+  energiaUp(el) { const v = Number(el.value); $('enum').textContent = v + '%'; $('emsg').textContent = energiaMsg(v); $('elow').hidden = v >= 40; },
+  horUp(el) { $('horv').textContent = el.value + ' h'; },
+  rotinaLive() { liveRotina(); },
+  maxUp(el) { $('mxdv').textContent = hh(Number(el.value)) + ' h'; liveRotina(); },
+  metaPrev() { const e = $('mprev'); if (e) e.textContent = metaFrase() || 'Preencha os campos acima.'; }
+};
+
+/* ================= EXPORTAÇÕES ================= */
+function sheetsData() {
+  const p = S.perfil, m = metrics(), [s0, s1] = slotRange(), fx = fixedMaps();
+  const resumo = [['Rotina Neural de Estudos'], [], ['Nome', p.nome], ['Idade', Number(p.idade)], ['Foco', (FOCOS.find(x => x.id === p.foco) || {}).t + (p.etapa ? ' · etapa ' + p.etapa : '')], ['Data da prova', p.semData || !p.data1 ? 'não definida' : (Number(p.dias) === 2 && p.data2 ? fmtData(p.data1) + ' e ' + fmtData(p.data2) : fmtData(p.data1))], ['Fase do preparo', fasePreparo().t], ['Bloco de foco', S.disp.tecnica], ['Horas planejadas por semana', Math.round(m.total * 10) / 10], [], ['Meta SMART', metaFrase()], ['Por que importa', S.meta.porque], ['Primeiro passo', S.meta.passo], ['Revisão do plano', fmtData(addDias(Number(S.meta.revisaoDias) || 7))], [], ['Gatilho', S.habito.gatilho], ['Recompensa', S.habito.recompensa]];
+  const disc = [['Disciplina', 'Dificuldade (1-3)', 'Peso (1-3)', 'Prioridade', 'Nível', 'Horas por semana']].concat([...S.disc].sort((a, b) => prioScore(b.id) - prioScore(a.id)).map(d => [d.nome, S.prio[d.id].d, S.prio[d.id].p, prioScore(d.id), TIERN[tier(prioScore(d.id))], Math.round((m.per[d.id] || 0) * 10) / 10]));
+  const grade = [['Horário'].concat(DAYS)];
+  for (let s = s0; s < s1; s++) { const r = [fm(s * 30)]; for (let d = 0; d < 7; d++) { const c = S.cron.cells[d + ':' + s]; r.push(fx[d][s] ? (CM_SHORT[fx[d][s]] || '') : d === Number(S.disp.folga) ? 'Folga' : c ? nomeCell(c) : ''); } grade.push(r); }
+  const lista = [['Dia', 'Início', 'Fim', 'Atividade', 'Ciclos']]; for (let d = 0; d < 7; d++) sessionsOf(d).forEach(x => lista.push([DAYS[d], fm(x.s * 30), fm(x.e * 30), nomeCell(x.c), x.cyc]));
+  const cont = [['Obstáculo', 'Sinal de alerta', 'Meu Se-Então', 'Protocolo SOS (5 min)', 'No cronograma']].concat(S.cont.ids.map(id => { const o = OBMAP[id]; return [o.nome, o.sinal, S.cont.se[id] || o.se, o.sos.join(' → '), o.modo]; }));
+  return [{ name: 'Resumo', rows: resumo, widths: [28, 70], bold: [0] }, { name: 'Disciplinas', rows: disc, widths: [38, 16, 12, 12, 14, 18], bold: [0] }, { name: 'Grade semanal', rows: grade, widths: [10, 18, 18, 18, 18, 18, 18, 18], bold: [0] }, { name: 'Lista', rows: lista, widths: [12, 9, 9, 40, 9], bold: [0] }, { name: 'Contingência', rows: cont, widths: [24, 40, 46, 46, 30], bold: [0] }];
+}
+const xmlEsc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '');
+function crc32(b) { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) { c ^= b[i]; for (let k = 0; k < 8; k++) c = (c >>> 1) ^ (0xEDB88320 & -(c & 1)); } return (c ^ 0xFFFFFFFF) >>> 0; }
+function zipStore(files) {
+  const enc = new TextEncoder(), parts = [], cd = []; let off = 0;
+  files.forEach(([name, text]) => {
+    const nb = enc.encode(name), db = enc.encode(text), crc = crc32(db);
+    const lh = new DataView(new ArrayBuffer(30)); lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(8, 0, true); lh.setUint16(10, 0, true); lh.setUint16(12, 0x21, true); lh.setUint32(14, crc, true); lh.setUint32(18, db.length, true); lh.setUint32(22, db.length, true); lh.setUint16(26, nb.length, true); lh.setUint16(28, 0, true);
+    parts.push(new Uint8Array(lh.buffer), nb, db);
+    const ch = new DataView(new ArrayBuffer(46)); ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true); ch.setUint16(10, 0, true); ch.setUint16(12, 0, true); ch.setUint16(14, 0x21, true); ch.setUint32(16, crc, true); ch.setUint32(20, db.length, true); ch.setUint32(24, db.length, true); ch.setUint16(28, nb.length, true); ch.setUint32(42, off, true);
+    cd.push(new Uint8Array(ch.buffer), nb); off += 30 + nb.length + db.length;
+  });
+  const cdSize = cd.reduce((a, x) => a + x.length, 0);
+  const end = new DataView(new ArrayBuffer(22)); end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true); end.setUint32(12, cdSize, true); end.setUint32(16, off, true);
+  return new Blob([...parts, ...cd, new Uint8Array(end.buffer)], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+}
+function xlsxBlob(sheets) {
+  const NS = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main', H = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+  const col = n => { let s = ''; n++; while (n > 0) { const m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = Math.floor((n - 1) / 26); } return s; };
+  const sx = sh => {
+    let x = H + `<worksheet xmlns="${NS}">` + (sh.widths ? '<cols>' + sh.widths.map((w, i) => `<col min="${i + 1}" max="${i + 1}" width="${w}" customWidth="1"/>`).join('') + '</cols>' : '') + '<sheetData>';
+    sh.rows.forEach((r, ri) => { x += `<row r="${ri + 1}">`; r.forEach((v, ci) => { if (v === null || v === undefined || v === '') return; const ref = col(ci) + (ri + 1), st = (sh.bold || []).includes(ri) ? 1 : 2; x += typeof v === 'number' && isFinite(v) ? `<c r="${ref}" s="${st}"><v>${v}</v></c>` : `<c r="${ref}" s="${st}" t="inlineStr"><is><t xml:space="preserve">${xmlEsc(v)}</t></is></c>`; }); x += '</row>'; });
+    return x + '</sheetData></worksheet>';
+  };
+  const n = sheets.length, files = [];
+  files.push(['[Content_Types].xml', H + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' + sheets.map((_, i) => `<Override PartName="/xl/worksheets/sheet${i + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('') + '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>']);
+  files.push(['_rels/.rels', H + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>']);
+  files.push(['xl/workbook.xml', H + `<workbook xmlns="${NS}" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>` + sheets.map((s, i) => `<sheet name="${xmlEsc(s.name)}" sheetId="${i + 1}" r:id="rId${i + 1}"/>`).join('') + '</sheets></workbook>']);
+  files.push(['xl/_rels/workbook.xml.rels', H + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' + sheets.map((_, i) => `<Relationship Id="rId${i + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i + 1}.xml"/>`).join('') + `<Relationship Id="rId${n + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`]);
+  files.push(['xl/styles.xml', H + `<styleSheet xmlns="${NS}"><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="3"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf></cellXfs></styleSheet>`]);
+  sheets.forEach((s, i) => files.push([`xl/worksheets/sheet${i + 1}.xml`, sx(s)]));
+  return zipStore(files);
+}
+function icsText() {
+  const loc = d => `${d.getFullYear()}${pad2(d.getMonth() + 1)}${pad2(d.getDate())}T${pad2(d.getHours())}${pad2(d.getMinutes())}00`;
+  const now = new Date(), stamp = now.toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+  const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Rotina Neural//PT-BR//', 'CALSCALE:GREGORIAN'];
+  const fase = fasePreparo(), count = fase.semanas && fase.semanas > 0 ? clamp(fase.semanas, 1, 52) : 12;
+  const next = wd => { const d = new Date(); d.setHours(0, 0, 0, 0); let diff = (wd - ((d.getDay() + 6) % 7) + 7) % 7; if (diff === 0) diff = 7; d.setDate(d.getDate() + diff); return d; };
+  let u = 0; const clean = t => String(t).replace(/[,;\n]/g, ' ');
+  const ev = (ini, fim, title, rr, desc) => { L.push('BEGIN:VEVENT', `UID:rn-${Date.now()}-${u++}@rotinaneural`, `DTSTAMP:${stamp}`, `DTSTART:${loc(ini)}`, `DTEND:${loc(fim)}`, `SUMMARY:${clean(title)}`); if (rr) L.push(rr); if (desc) L.push('DESCRIPTION:' + clean(desc)); L.push('END:VEVENT'); };
+  const diaTodo = (iso, title, desc) => { const e = isoD(iso); e.setDate(e.getDate() + 1); L.push('BEGIN:VEVENT', `UID:rn-${Date.now()}-${u++}@rotinaneural`, `DTSTAMP:${stamp}`, `DTSTART;VALUE=DATE:${iso.replace(/-/g, '')}`, `DTEND;VALUE=DATE:${isoLocal(e).replace(/-/g, '')}`, `SUMMARY:${clean(title)}`, 'DESCRIPTION:' + clean(desc), 'END:VEVENT'); };
+  const horas = [], p = S.perfil;
+  for (let d = 0; d < 7; d++) { const base = next(d); sessionsOf(d).forEach(x => ev(new Date(base.getTime() + x.s * 30 * 60000), new Date(base.getTime() + x.e * 30 * 60000), 'Estudo: ' + nomeCell(x.c), `RRULE:FREQ=WEEKLY;COUNT=${count}`, `${x.cyc} ciclo(s) de ${S.disp.tecnica}`)); }
+  if (!p.semData && p.data1) {
+    const dois = Number(p.dias) === 2 && p.data2;
+    if (diasAte(p.data1) >= 1) { const v = isoD(p.data1); v.setDate(v.getDate() - 1); diaTodo(isoLocal(v), 'Véspera da prova: revisão leve e dormir cedo', 'Sem conteúdo novo. Separe documento e material.'); }
+    diaTodo(p.data1, dois ? 'PROVA · Dia 1' : 'PROVA', (DIAINFO[p.foco] || [''])[0] || 'Dia da prova');
+    if (dois) diaTodo(p.data2, 'PROVA · Dia 2', (DIAINFO[p.foco] || ['', ''])[1] || 'Segundo dia de prova');
+  }
+  const rv = isoD(addDias(Number(S.meta.revisaoDias) || 7)); rv.setHours(20, 0, 0, 0); ev(rv, new Date(rv.getTime() + 30 * 60000), 'Revisar meu plano de estudos', '', 'Veja o que funcionou, ajuste o cronograma e o plano de contingência.');
+  if (S.meta.passoDia) { const d = isoD(addDias(S.meta.passoDia === 'hoje' ? 0 : 1)), [hr, mi] = (S.meta.passoHora || '19:00').split(':').map(Number); d.setHours(hr || 0, mi || 0, 0, 0); ev(d, new Date(d.getTime() + 30 * 60000), 'Meu primeiro passo: ' + (S.meta.passo || ''), '', ''); }
+  L.push('END:VCALENDAR'); return L.join('\r\n');
+}
+
+/* ================= EVENTOS ================= */
+document.addEventListener('click', e => { const el = e.target.closest('[data-act]'); if (el && ACT[el.dataset.act]) ACT[el.dataset.act](el, e); });
+document.addEventListener('input', e => {
+  const el = e.target, ds = el.dataset || {};
+  if (ds.bind) {
+    let v = el.type === 'checkbox' ? el.checked : el.value; if (el.type === 'number' || el.type === 'range' || ds.num) v = v === '' ? '' : Number(v);
+    setPath(S, ds.bind, v); if (/^disp\./.test(ds.bind)) invalida(); if (ds.bind === 'pre.texto') S.cont.ids = null; save();
+    if (ds.wc !== undefined) { const n = wc(el.value), c = el.nextElementSibling; if (c) { c.textContent = `${n} palavras (mín. ${ds.wc})`; c.classList.toggle('ok', n >= Number(ds.wc)); } }
+    if (ds.live && LIVE[ds.live]) LIVE[ds.live](el);
+  }
+  if (ds.dq) { const d = S.disc.find(x => x.id === ds.dq); if (d) { d.q = Number(el.value) > 0 ? Number(el.value) : null; save(); } }
+  if (ds.cm) { const [dd, ii, ff] = ds.cm.split('.'), c = S.disp.days[+dd] && S.disp.days[+dd][+ii]; if (c) { c[ff] = el.value; invalida(); save(); liveRotina(); } }
+});
+document.addEventListener('change', e => {
+  const el = e.target, ds = el.dataset || {};
+  if (ds.dp) { const d = S.disc.find(x => x.id === ds.dp); if (d) { d.dp = el.value === '12' ? [1, 2] : [Number(el.value)]; invalida(); save(); } return; }
+  if (ds.actChange === 'preset') { applyPreset(el.value); save(); render(true); return; }
+  if (ds.re) render(true);
+});
+document.addEventListener('toggle', e => { const t = e.target; if (t.matches && t.matches('details[data-day]')) { S.ui.open[t.dataset.day] = t.open; save(); } }, true);
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'newd') { e.preventDefault(); ACT.addDisc(); } if (e.key === 'Escape') closeA(); });
+
+/* ================= ACESSIBILIDADE ================= */
+function openA() { $('am').classList.add('open'); setTimeout(() => $('fs').focus(), 50); }
+function closeA() { $('am').classList.remove('open'); }
+function applyA() {
+  document.body.className = [$('fs').value, $('vm').value, $('rm').checked ? 'reduce' : ''].filter(Boolean).join(' ');
+  try { localStorage.setItem(A11Y, JSON.stringify({ fs: $('fs').value, vm: $('vm').value, rm: $('rm').checked })); } catch (e) {}
+}
+function loadA() { try { const s = JSON.parse(localStorage.getItem(A11Y) || '{}'); if (s.fs !== undefined) $('fs').value = s.fs; if (s.vm !== undefined) $('vm').value = s.vm; if (s.rm !== undefined) $('rm').checked = !!s.rm; applyA(); } catch (e) {} }
+
+/* ================= INÍCIO ================= */
+loadState(); loadA();
+if (S.step < 0 || S.step > LAST + 1) S.step = 0;
+if (S.step === 5) ensureQuiz();
+if (S.step === 6) ensurePrio();
+if (S.step >= 8 && S.step <= LAST + 1 && !S.cron.gerado) { try { ensurePrio(); gerar(); } catch (e) { S.step = 7; } }
+if (S.step >= 10 && S.step <= LAST + 1) initCont();
+render(false);
+</script>
+</body>
+</html>
